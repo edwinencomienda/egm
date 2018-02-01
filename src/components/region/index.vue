@@ -1,0 +1,112 @@
+<template>
+    <div style="width:100%">
+        <v-card>
+            <v-card-title>
+            Regions
+            <v-spacer></v-spacer>
+            <v-text-field
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+                v-model="search"
+            ></v-text-field>
+            </v-card-title>
+            <v-data-table
+                v-bind:headers="headers"
+                v-bind:items="items"
+                v-bind:search="search"
+            >
+            <template slot="items" slot-scope="props">
+                <tr :active="props.selected" @click="props.selected = !props.selected">
+                    <td class="text-xs-center">{{ props.item.display_name }}</td>
+                    <td class="text-xs-center">{{ clusters(props.item.clusters)  }} </td>
+                    <td class="text-xs-center">{{ props.item.erm_endpoint }}</td>
+                    <td class="text-xs-center">{{props.item.slug}}</td>
+                    <td class="text-xs-center">
+                        <v-menu bottom left>
+                            <v-btn icon slot="activator" >
+                                <v-icon>more_vert</v-icon>
+                            </v-btn>
+                            <v-list>
+                                <v-list-tile >
+                                    <v-icon sm>search</v-icon>
+                                    <v-list-tile-title>view</v-list-tile-title>
+                                </v-list-tile>
+                                <v-list-tile >
+                                    <v-icon sm>mode_edit</v-icon>
+                                    <v-list-tile-title>update</v-list-tile-title>
+                                </v-list-tile>
+                                <v-list-tile>
+                                    <v-icon sm>delete</v-icon>
+                                    <v-list-tile-title>delete</v-list-tile-title>
+                                </v-list-tile>
+                            </v-list>
+                        </v-menu>
+                    </td>
+                </tr>
+            </template>
+            <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+                From {{ pageStart }} to {{ pageStop }}
+            </template>
+            </v-data-table>
+        </v-card>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'clusters',
+  data () {
+    return {
+      items: [],
+      headers: [
+        {
+          text: 'Name',
+          align: 'center',
+          value: 'display_name'
+        },
+        {
+          text: 'Clusters',
+          align: 'center',
+          value: 'clusters'
+        },
+        {
+          text: 'URL',
+          align: 'center',
+          value: 'erm_endpoint'
+        },
+        {
+          text: 'SLUG',
+          align: 'center',
+          value: 'erm_endpoint'
+        }
+      ],
+      search: ''
+    }
+  },
+  computed: {
+    ...mapGetters({
+      regions: 'regions'
+    })
+  },
+  created () {
+    this.items = this.regions
+  },
+  methods: {
+    changeSort (column) {
+      if (this.pagination.sortBy === column) {
+        this.pagination.descending = !this.pagination.descending
+      } else {
+        this.pagination.sortBy = column
+        this.pagination.descending = false
+      }
+    },
+    clusters (data) {
+      return data.map(o => o.display_name).join(', ')
+    }
+  }
+}
+</script>

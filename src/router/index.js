@@ -2,8 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/index'
-import Template from '@/components/common/template'
+import DashboardTemplate from '@/components/common/template'
+import RegionIndex from '@/components/region/index'
+import ClusterIndex from '@/components/cluster/index'
 import { store } from '@/store/index'
+
 const authenticationNotRequired = (to, from, next) => {
   if (!store.getters['AUTH_IS_LOGIN']) {
     next()
@@ -45,14 +48,26 @@ export default new Router({
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
-      component: Template,
+      component: DashboardTemplate,
       beforeEnter: authenticationRequired,
       children: [
         {
           path: '',
+          name: 'dashboard',
           component: Dashboard,
           meta: { title: 'Dashboard' }
+        },
+        {
+          path: 'regions',
+          name: 'regions',
+          component: RegionIndex,
+          meta: { title: 'Regions' }
+        },
+        {
+          path: 'clusters',
+          name: 'clusters',
+          component: ClusterIndex,
+          meta: { title: 'Clusters' }
         }
       ]
     },

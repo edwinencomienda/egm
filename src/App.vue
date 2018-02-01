@@ -2,8 +2,14 @@
     <v-app id="inspire" class="login-bg">
         <side-bar v-if="user"></side-bar>
         <top-header v-if="user" :drawer="drawer"></top-header>
-        <v-content class="mt-2">
-          <router-view keep-alive transition-mode="out-in"></router-view>
+        <v-content>
+          <v-layout row wrap  class="ma-3 mt-5">
+              <transition name="fade" mode="out-in">
+                  <keep-alive>
+                      <router-view ></router-view>
+                  </keep-alive>
+              </transition>
+          </v-layout>
         </v-content>
     </v-app>
 </template>
@@ -36,19 +42,11 @@ export default {
 </script>
 
 <style scoped>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 .fade-enter-active, .fade-leave-active {
         transition: opacity .3s
-      }
+}
 
-      .fade-enter, .fade-leave-to    {
-        opacity: 0
-      }
+.fade-enter, .fade-leave-to    {
+  opacity: 0
+}
 </style>

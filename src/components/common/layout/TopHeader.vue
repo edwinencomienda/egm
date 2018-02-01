@@ -52,7 +52,8 @@
 export default {
   data () {
     return {
-      logo: ''
+      logo: '',
+      user: ''
     }
   },
   created () {
