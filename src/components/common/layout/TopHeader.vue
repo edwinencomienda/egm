@@ -49,14 +49,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      logo: '',
-      user: ''
+      logo: ''
     }
   },
   created () {
+  },
+  computed: {
+    ...mapGetters({
+        user: 'userData'
+    })
   },
   methods: {
     logout: function (event) {
