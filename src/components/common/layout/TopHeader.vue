@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-        user: 'userData'
+      user: 'userData'
     })
   },
   methods: {

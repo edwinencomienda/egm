@@ -1,5 +1,5 @@
 <template>
-	<div style="width:100%">
+  <div style="width:100%">
         <v-card>
             <v-card-title>
                 Create New Region
@@ -11,7 +11,7 @@
             </v-card-title>
             <item-form></item-form>
         </v-card>
-	</div>
+  </div>
 </template>
 
 <script>

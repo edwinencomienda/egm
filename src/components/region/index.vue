@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%">
+  <div style="width:100%">
         <v-card>
             <v-card-title>
             Regions
@@ -111,14 +111,13 @@ export default {
       this.$router.push('region/edit')
     },
     deleteItem (slug) {
-      let self = this
-      swal({   
-        title: "Are you sure?",   
-        text: "You will not be able to recover this record!",   
-        type: "warning",   
-        showCancelButton: true,   
-        confirmButtonColor: "#DD6B55",   
-        confirmButtonText: "Yes, delete it!",   
+      swal({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this record!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, delete it!'
       }).then(function (isConfirm) {
         if (isConfirm.value) {
           this.$store.dispatch('DELETE_REGION', { slug }).then(() => {
