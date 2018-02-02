@@ -4,13 +4,10 @@
             <v-card-title>
             Regions
             <v-spacer></v-spacer>
-            <v-text-field
-                append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-                v-model="search"
-            ></v-text-field>
+            <v-btn color="default" router to="/dashboard/region/create">
+                <v-icon dark left>add_circle</v-icon>
+                New
+            </v-btn>
             </v-card-title>
             <v-data-table
                 v-bind:headers="headers"
@@ -18,7 +15,7 @@
                 v-bind:search="search"
             >
             <template slot="items" slot-scope="props">
-                <tr :active="props.selected" @click="props.selected = !props.selected">
+                <tr :active="props.selected" @click="props.selected = !props.selected" :id="props.item.slug">
                     <td class="text-xs-center">{{ props.item.display_name }}</td>
                     <td class="text-xs-center">{{ clusters(props.item.clusters)  }} </td>
                     <td class="text-xs-center">{{ props.item.erm_endpoint }}</td>
@@ -33,7 +30,7 @@
                                     <v-icon sm>search</v-icon>
                                     <v-list-tile-title>view</v-list-tile-title>
                                 </v-list-tile>
-                                <v-list-tile >
+                                <v-list-tile @click="editItem(props.item)">
                                     <v-icon sm>mode_edit</v-icon>
                                     <v-list-tile-title>update</v-list-tile-title>
                                 </v-list-tile>
@@ -106,6 +103,10 @@ export default {
     },
     clusters (data) {
       return data.map(o => o.display_name).join(', ')
+    },
+    editItem (data) {
+      this.$store.commit('SET_EDIT_ITEM_REGION', data)
+      this.$router.push('region/edit')
     }
   }
 }

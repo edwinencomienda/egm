@@ -9,7 +9,6 @@ export const state = {
 
 export const getters = {
   userData: state => state.userData,
-  regions: state => state.userData ? state.userData.regions : [],
   clusterPlans: state => state.userData ? state.userData.cluster_plans : []
 }
 
@@ -26,6 +25,7 @@ export const actions = {
   USER_ACTION ({ commit }, data) {
     return user.me().then(response => {
       commit('SET_USER_DATA', response.data)
+      commit('SET_REGION', response.data.regions)
     }).catch(error => {
       commit('AUTH_ERROR', error.response.status)
     })

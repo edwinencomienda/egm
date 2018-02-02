@@ -4,6 +4,8 @@ import Login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/index'
 import DashboardTemplate from '@/components/common/template'
 import RegionIndex from '@/components/region/index'
+import CreateRegion from '@/components/region/create'
+import UpdateRegion from '@/components/region/update'
 import ClusterIndex from '@/components/cluster/index'
 import { store } from '@/store/index'
 
@@ -62,6 +64,14 @@ export default new Router({
           name: 'regions',
           component: RegionIndex,
           meta: { title: 'Regions' }
+        },
+        {
+          path: 'region/create',
+          component: CreateRegion
+        },
+        {
+          path: 'region/edit',
+          component: UpdateRegion
         },
         {
           path: 'clusters',
