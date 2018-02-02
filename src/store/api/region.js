@@ -4,10 +4,10 @@ export default {
   create (data) {
     return axios.post(process.env.API_ENDPOINT + '/admin/region?token=' + cookies.get('user_token_session'), data)
   },
-  update () {
-    return axios.post(process.env.API_ENDPOINT + 'admin/region?token=' + cookies.get('user_token_session'))
+  update (data) {
+    return axios.post(process.env.API_ENDPOINT + '/admin/region/' + data.slug + '?token=' + cookies.get('user_token_session'), data)
   },
-  delete () {
-    return axios.post(process.env.API_ENDPOINT + 'admin/region?token=' + cookies.get('user_token_session'))
+  delete (data) {
+    return axios.post(process.env.API_ENDPOINT + 'admin/region/'+ data.slug +'?token=' + cookies.get('user_token_session'))
   }
 }

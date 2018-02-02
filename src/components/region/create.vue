@@ -18,6 +18,9 @@
 import ItemForm from './form'
 
 export default {
+  created () {
+    this.$store.commit('SET_FORM_STATE', 'create')
+  },
   components: {
     'item-form': ItemForm
   }

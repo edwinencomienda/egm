@@ -28,7 +28,7 @@
             multi-line
         ></v-text-field>
         <v-btn
-            @click="createItem"
+            @click="submitForm"
             :disabled="!valid"
         >
         Save
@@ -39,6 +39,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import swal from 'sweetalert2'
 
 export default {
   data () {
@@ -66,9 +67,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      editItem: 'editItem'
-    })
+    ...mapGetters([
+      'editItem',
+      'formState'
+    ])
+  },
+  created () {
+    if (this.formState === 'update') {
+      this.form = this.editItem
+    }
   },
   methods: {
     clear () {
@@ -80,16 +87,34 @@ export default {
       }
       this.$refs.form.reset()
     },
+    submitForm () {
+      if (this.formState === 'create') {
+        this.createItem()
+      } else {
+        this.updateItem()
+      }
+    },
     createItem () {
+      if (this.$refs.form.validate()) {
+        let data = this.form
+        data.slug = Math.random().toString()
+        this.$store.dispatch('CREATE_REGION', data).then(() => {
+          swal('Successful', 'Created', 'success')
+          this.clear()
+        }).catch(() => {
+        // fails
+        })
+      }
+    },
+    updateItem () {
       let data = this.form
-      data.slug = Math.random().toString()
-      this.$store.dispatch('CREATE_REGION', data).then(() => {
+      console.log('test')
+      this.$store.dispatch('UPDATE_REGION', data).then(() => {
         this.clear()
       }).catch(() => {
       // fails
       })
-    },
-    
+    }
   }
 }
 </script>

@@ -7,6 +7,7 @@ import Vuetify from 'vuetify'
 import VeeValidate from 'vee-validate'
 import VueRouter from 'vue-router'
 import 'vuetify/dist/vuetify.min.css'
+require('sweetalert2/dist/sweetalert2.min.css')
 import cookies from 'vue-cookies'
 import axios from 'axios'
 import { axiosConfig } from '../config/axios.config'

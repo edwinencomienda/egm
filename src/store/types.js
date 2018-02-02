@@ -1,4 +1,7 @@
+export const SET_FORM_STATE = 'SET_FORM_STATE'
+export const SET_EDIT_ITEM = 'SET_EDIT_ITEM'
 export const SET_REGION = 'SET_REGION'
 export const CREATE_REGION = 'CREATE_REGION'
+export const UPDATE_REGION = 'UPDATE_REGION'
+export const DELETE_REGION = 'DELETE_REGION'
 export const ADD_REGION = 'ADD_REGION'
-export const SET_EDIT_ITEM_REGION = 'SET_EDIT_ITEM_REGION'
