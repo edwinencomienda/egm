@@ -1,4 +1,5 @@
-import user from '../api/user'
+// import user from '../api/user'
+import user from '../../api/common/user'
 import cookies from 'vue-cookies'
 
 export const state = {

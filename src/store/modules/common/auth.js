@@ -1,5 +1,5 @@
 
-import auth from '../api/auth'
+import auth from '../../api/common/auth'
 import cookies from 'vue-cookies'
 
 export const state = {
@@ -43,5 +43,6 @@ export const actions = {
   },
   SET_AUTH ({ commit }) {
     commit('SET_AUTH')
+    window.access_token = cookies.get('user_token_session')
   }
 }

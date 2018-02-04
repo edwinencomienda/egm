@@ -15,6 +15,6 @@ export const mutations = {
     state.formState = payload
   },
   [SET_EDIT_ITEM] (state, payload) {
-    state.editItem = payload
+    state.editItem = Object.assign({}, payload)
   }
 }

@@ -107,6 +107,7 @@ export default {
       return data.map(o => o.display_name).join(', ')
     },
     editItem (data) {
+      data.region_slug = data.slug
       this.$store.commit('SET_EDIT_ITEM', data)
       this.$router.push('region/edit')
     },

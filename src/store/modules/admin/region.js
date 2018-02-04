@@ -1,5 +1,5 @@
-import api from '../api/region'
-import { CREATE_REGION, ADD_REGION, SET_REGION, UPDATE_REGION, DELETE_REGION } from '../types'
+import api from '../../api/admin/region'
+import { CREATE_REGION, ADD_REGION, SET_REGION, UPDATE_REGION, DELETE_REGION } from '../../types'
 
 export const state = {
   me: '',
@@ -37,6 +37,8 @@ export const actions = {
   },
   [UPDATE_REGION] ({ commit }, data) {
     return new Promise((resolve, reject) => {
+      data.slug = data.region_slug
+      data.description = data.description ? data.description : ''
       api.update(data).then(response => {
         resolve(response)
       }, error => {
@@ -46,6 +48,7 @@ export const actions = {
   },
   [DELETE_REGION] ({ commit }, data) {
     return new Promise((resolve, reject) => {
+      data.region_slug = data.slug
       api.delete(data).then(response => {
         resolve(response)
       }, error => {

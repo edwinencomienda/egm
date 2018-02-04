@@ -1,16 +1,17 @@
+import cookies from 'vue-cookies'
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/index'
 import DashboardTemplate from '@/components/common/template'
-import RegionIndex from '@/components/region/index'
-import CreateRegion from '@/components/region/create'
-import UpdateRegion from '@/components/region/update'
-import ClusterIndex from '@/components/cluster/index'
+
+import AdminRegionIndex from '@/components/admin/region/index'
+import AdminCreateRegion from '@/components/admin/region/create'
+import AdminUpdateRegion from '@/components/admin/region/update'
 import { store } from '@/store/index'
 
 const authenticationNotRequired = (to, from, next) => {
-  if (!store.getters['AUTH_IS_LOGIN']) {
+  if (!cookies.get('user_token_session')) {
     next()
     return
   }
@@ -18,14 +19,11 @@ const authenticationNotRequired = (to, from, next) => {
 }
 
 const authenticationRequired = (to, from, next) => {
-  if (!store.state.auth.user) {
+  if (!store.getters.AUTH_IS_LOGIN) {
     store.dispatch('SET_AUTH')
   }
-  if (store.getters['AUTH_IS_LOGIN']) {
-    if (store.getters['AUTH_IS_LOGIN']) {
-      console.log('test')
-      store.dispatch('USER_ACTION')
-    }
+  if (cookies.get('user_token_session')) {
+    store.dispatch('USER_ACTION')
     next()
     return
   }
@@ -62,22 +60,21 @@ export default new Router({
         {
           path: 'regions',
           name: 'regions',
-          component: RegionIndex,
+          component: AdminRegionIndex,
           meta: { title: 'Regions' }
         },
         {
           path: 'region/create',
-          component: CreateRegion
+          component: AdminCreateRegion
         },
         {
           path: 'region/edit',
-          component: UpdateRegion
+          component: AdminUpdateRegion
         },
         {
           path: 'clusters',
-          name: 'clusters',
-          component: ClusterIndex,
-          meta: { title: 'Clusters' }
+          name: 'Clusters',
+          redirect: '/dashboard'
         }
       ]
     },

@@ -8,6 +8,13 @@
             required
         ></v-text-field>
         <v-text-field
+            label="Slug"
+            v-model="form.region_slug"
+            :rules="slug_rules"
+            :counter="30"
+            required
+        ></v-text-field>
+        <v-text-field
             label="Display Name"
             v-model="form.display_name"
             :rules="display_name_rules"
@@ -56,6 +63,10 @@ export default {
         (v) => !!v || 'Name is required',
         (v) => (v && v.length <= 30) || 'Name must be less than 30 characters'
       ],
+      slug_rules: [
+        (v) => !!v || 'Slug is required',
+        (v) => (v && v.length <= 30) || 'Name must be less than 30 characters'
+      ],
       display_name_rules: [
         (v) => !!v || 'Display Name is required',
         (v) => (v && v.length <= 30) || 'Display Name must be less than 30 characters'
@@ -97,7 +108,6 @@ export default {
     createItem () {
       if (this.$refs.form.validate()) {
         let data = this.form
-        data.slug = Math.random().toString()
         this.$store.dispatch('CREATE_REGION', data).then(() => {
           swal('Successful', 'Created', 'success')
           this.clear()
@@ -107,13 +117,14 @@ export default {
       }
     },
     updateItem () {
-      let data = this.form
-      console.log('test')
-      this.$store.dispatch('UPDATE_REGION', data).then(() => {
-        this.clear()
-      }).catch(() => {
-      // fails
-      })
+      if (this.$refs.form.validate()) {
+        let data = Object.assign({}, this.form)
+        this.$store.dispatch('UPDATE_REGION', data).then(() => {
+          swal('Successful', 'Updated', 'success')
+        }).catch(() => {
+        // fails
+        })
+      }
     }
   }
 }
