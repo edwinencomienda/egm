@@ -1,15 +1,15 @@
 import axios from 'axios'
 import cookies from 'vue-cookies'
-import { env } from '../../config/env'
+import { store } from '../../index'
 
 export default {
   create (data) {
-    return axios.post(env.DOMAIN_URL + 'admin/region?token=' + cookies.get('user_token_session'), data)
+    return axios.post(store.getters.DOMAIN_URL + 'region?token=' + cookies.get('user_token_session'), data)
   },
   update (data) {
-    return axios.post(env.DOMAIN_URL + 'admin/region/' + data.region_slug + '?token=' + cookies.get('user_token_session'), data)
+    return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'), data)
   },
   delete (data) {
-    return axios.post(env.DOMAIN_URL + 'admin/region/' + data.region_slug + '?token=' + cookies.get('user_token_session'))
+    return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'))
   }
 }

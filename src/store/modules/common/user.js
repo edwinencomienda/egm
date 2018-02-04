@@ -1,6 +1,7 @@
 // import user from '../api/user'
 import user from '../../api/common/user'
 import cookies from 'vue-cookies'
+import { env } from '../../config/env'
 
 export const state = {
   me: '',
@@ -10,6 +11,11 @@ export const state = {
 
 export const getters = {
   userData: state => state.userData,
+  apiPrefix: state => state.userData ? state.userData.api_path_prefix : '',
+  DOMAIN_URL () {
+    let prefix = state.userData ? state.userData.api_path_prefix : ''
+    return env.BASE_URL + '/' + prefix
+  },
   clusterPlans: state => state.userData ? state.userData.cluster_plans : []
 }
 
