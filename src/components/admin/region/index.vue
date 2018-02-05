@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%">
+  <div>
         <v-card>
             <v-card-title>
             Regions
@@ -78,7 +78,7 @@ export default {
           value: 'erm_endpoint'
         },
         {
-          text: 'SLUG',
+          text: 'Slug',
           align: 'center',
           value: 'slug'
         },

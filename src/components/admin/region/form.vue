@@ -30,17 +30,17 @@
         ></v-text-field>
         <v-btn
             @click="submitForm"
-            :disabled="!valid"
+            :disabled="DISABLE"
+            :loading="LOADING"
         >
         Save
         </v-btn>
-        <v-btn @click="clear">Clear</v-btn>
+        <v-btn @click="clear" :disabled="edit ? true : false">Clear</v-btn>
     </v-form>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import swal from 'sweetalert2'
 
 export default {
   data () {
@@ -73,8 +73,10 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'LOADING',
       'editItem',
-      'formState'
+      'formState',
+      'DISABLE'
     ])
   },
   created () {
@@ -102,26 +104,14 @@ export default {
     },
     createItem () {
       if (this.$refs.form.validate()) {
+        this.$store.dispatch('LOADING')
+        this.$store.dispatch('DISABLE')
         let data = this.form
         this.$store.dispatch('CREATE_REGION', data).then(() => {
           this.clear()
-          swal({
-            title: 'Region Created',
-            text: 'Do you want to add another Region?',
-            type: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Add',
-            cancelButtonText: 'Close',
-            allowOutsideClick: false
-          }).then(function (confirm) {
-            if (confirm.value) {
-              this.$router.push('/dashboard/region/create')
-            } else {
-              this.$router.push('/dashboard/regions')
-            }
-          }.bind(this))
+          this.$store.dispatch('UNLOADING')
+          this.$store.dispatch('ENABLE')
+          this.$router.push('/dashboard/regions')
         }).catch(() => {
         // fails
         })
@@ -129,25 +119,13 @@ export default {
     },
     updateItem () {
       if (this.$refs.form.validate()) {
+        this.$store.dispatch('LOADING')
+        this.$store.dispatch('DISABLE')
         let data = Object.assign({}, this.form)
         this.$store.dispatch('UPDATE_REGION', data).then(() => {
-          swal({
-            title: 'Region Updated',
-            text: 'Do you want to update again?',
-            type: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'Cancel',
-            allowOutsideClick: false
-          }).then(function (confirm) {
-            if (confirm.value) {
-              this.$router.push('/dashboard/region/edit')
-            } else {
-              this.$router.push('/dashboard/regions')
-            }
-          }.bind(this))
+          this.$store.dispatch('UNLOADING')
+          this.$store.dispatch('ENABLE')
+          this.$router.push('/dashboard/regions')
         }).catch(() => {
         // fails
         })

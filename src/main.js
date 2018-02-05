@@ -8,6 +8,8 @@ import VeeValidate from 'vee-validate'
 import VueRouter from 'vue-router'
 import { store } from './store/index.js'
 import cookies from 'vue-cookies'
+import axios from 'axios'
+import { axiosConfig } from '../config/axios.config'
 import 'vuetify/dist/vuetify.min.css'
 require('sweetalert2/dist/sweetalert2.min.css')
 const config = {
@@ -18,6 +20,9 @@ const config = {
   dictionary: null,
   strict: true
 }
+console.log(axiosConfig)
+Vue.prototype.$axios = axios.create(axiosConfig)
+console.log(axios.post('user/data'))
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueRouter)
