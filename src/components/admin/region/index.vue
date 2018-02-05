@@ -20,6 +20,7 @@
                     <td class="text-xs-center">{{ clusters(props.item.clusters)  }} </td>
                     <td class="text-xs-center">{{ props.item.erm_endpoint }}</td>
                     <td class="text-xs-center">{{props.item.slug}}</td>
+                    <td class="text-xs-center">{{props.item.description}}</td>
                     <td class="text-xs-center">
                         <v-menu bottom left>
                             <v-btn icon slot="activator" >
@@ -28,7 +29,7 @@
                             <v-list>
                                 <v-list-tile >
                                     <v-icon sm>search</v-icon>
-                                    <v-list-tile-title>view</v-list-tile-title>
+                                    <v-list-tile-title>Clusters</v-list-tile-title>
                                 </v-list-tile>
                                 <v-list-tile @click="editItem(props.item)">
                                     <v-icon sm>mode_edit</v-icon>
@@ -79,7 +80,12 @@ export default {
         {
           text: 'SLUG',
           align: 'center',
-          value: 'erm_endpoint'
+          value: 'slug'
+        },
+        {
+          text: 'Description',
+          align: 'center',
+          value: 'description'
         }
       ],
       search: ''

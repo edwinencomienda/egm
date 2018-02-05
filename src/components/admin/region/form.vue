@@ -1,9 +1,9 @@
 <template>
     <v-form v-model="valid" ref="form" lazy-validation class="pa-5">
         <v-text-field
-            label="Name"
-            v-model="form.name"
-            :rules="name_rules"
+            label="Display Name"
+            v-model="form.display_name"
+            :rules="display_name_rules"
             :counter="30"
             required
         ></v-text-field>
@@ -13,13 +13,7 @@
             :rules="slug_rules"
             :counter="30"
             required
-        ></v-text-field>
-        <v-text-field
-            label="Display Name"
-            v-model="form.display_name"
-            :rules="display_name_rules"
-            :counter="30"
-            required
+            :disabled="edit ? true : false"
         ></v-text-field>
         <v-text-field
             label="ERM Endpoint"
@@ -86,6 +80,7 @@ export default {
   created () {
     if (this.formState === 'update') {
       this.form = this.editItem
+      this.edit = true
     }
   },
   methods: {
@@ -109,8 +104,24 @@ export default {
       if (this.$refs.form.validate()) {
         let data = this.form
         this.$store.dispatch('CREATE_REGION', data).then(() => {
-          swal('Successful', 'Created', 'success')
           this.clear()
+          swal({
+            title: 'Region Created',
+            text: 'Do you want to add another Region?',
+            type: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Add',
+            cancelButtonText: 'Close',
+            allowOutsideClick: false
+          }).then(function (confirm) {
+            if (confirm.value) {
+              this.$router.push('/dashboard/region/create')
+            } else {
+              this.$router.push('/dashboard/regions')
+            }
+          }.bind(this))
         }).catch(() => {
         // fails
         })
@@ -120,7 +131,23 @@ export default {
       if (this.$refs.form.validate()) {
         let data = Object.assign({}, this.form)
         this.$store.dispatch('UPDATE_REGION', data).then(() => {
-          swal('Successful', 'Updated', 'success')
+          swal({
+            title: 'Region Updated',
+            text: 'Do you want to update again?',
+            type: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+            allowOutsideClick: false
+          }).then(function (confirm) {
+            if (confirm.value) {
+              this.$router.push('/dashboard/region/edit')
+            } else {
+              this.$router.push('/dashboard/regions')
+            }
+          }.bind(this))
         }).catch(() => {
         // fails
         })

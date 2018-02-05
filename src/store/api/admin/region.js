@@ -10,6 +10,13 @@ export default {
     return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'), data)
   },
   delete (data) {
-    return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'))
+    console.log(data.region_slug)
+    return axios.delete(store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'), {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new FormData(data.region_slug)
+    })
   }
 }
