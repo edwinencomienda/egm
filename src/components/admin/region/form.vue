@@ -8,7 +8,7 @@
             required
         ></v-text-field>
         <v-text-field
-            label="Slug"
+            label="ID"
             v-model="form.region_slug"
             :rules="slug_rules"
             :counter="30"
@@ -58,7 +58,7 @@ export default {
         (v) => (v && v.length <= 30) || 'Name must be less than 30 characters'
       ],
       slug_rules: [
-        (v) => !!v || 'Slug is required',
+        (v) => !!v || 'ID is required',
         (v) => (v && v.length <= 30) || 'Name must be less than 30 characters'
       ],
       display_name_rules: [

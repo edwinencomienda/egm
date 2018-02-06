@@ -1,13 +1,9 @@
 <template>
-  <div>
+  <div class="width-100-percent">
         <v-card>
             <v-card-title>
             Clusters
             <v-spacer></v-spacer>
-            <v-btn color="default" router to="/dashboard/region/create">
-                <v-icon dark left>add_circle</v-icon>
-                New
-            </v-btn>
             </v-card-title>
             <v-data-table
                 v-bind:headers="headers"
@@ -40,22 +36,22 @@ export default {
       headers: [
         {
           text: 'Name',
-          align: 'left',
+          align: 'center',
           value: 'name'
         },
         {
           text: 'Description',
-          align: 'left',
+          align: 'center',
           value: 'description'
         },
         {
           text: 'Price',
-          align: 'left',
+          align: 'center',
           value: 'price'
         },
         {
-          text: 'Slug',
-          align: 'left',
+          text: 'ID',
+          align: 'center',
           value: 'slug'
         }
       ],

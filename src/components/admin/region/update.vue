@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%">
+    <div class="width-100-percent">
         <v-card>
             <v-card-title>
                 Update Region

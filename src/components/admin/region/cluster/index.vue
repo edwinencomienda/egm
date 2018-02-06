@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%;">
+  <div class="width-100-percent">
         <v-card>
             <v-card-title>
             Clusters
@@ -54,7 +54,7 @@ export default {
           value: 'public_ipv4'
         },
         {
-          text: 'Slug',
+          text: 'ID',
           align: 'left',
           value: 'slug'
         }

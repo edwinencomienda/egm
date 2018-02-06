@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%;">
+  <div class="width-100-percent">
         <v-card>
             <v-card-title>
             Regions
@@ -23,7 +23,7 @@
                     <td class="text-xs-center">{{props.item.description}}</td>
                     <td class="text-xs-center">
                         <v-menu bottom left>
-                            <v-btn icon slot="activator" >
+                            <v-btn icon slot="activator">
                                 <v-icon>more_vert</v-icon>
                             </v-btn>
                             <v-list>
@@ -78,7 +78,7 @@ export default {
           value: 'erm_endpoint'
         },
         {
-          text: 'Slug',
+          text: 'ID',
           align: 'center',
           value: 'slug'
         },

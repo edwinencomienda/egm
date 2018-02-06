@@ -7,8 +7,8 @@ import DashboardTemplate from '@/components/common/template'
 
 import AdminRegionIndex from '@/components/admin/region/index'
 import AdminRegionClusterIndex from '@/components/admin/region/cluster/index'
-import AdminCreateRegion from '@/components/admin/region/create'
-import AdminUpdateRegion from '@/components/admin/region/update'
+import AdminRegionCreate from '@/components/admin/region/create'
+import AdminRegionUpdate from '@/components/admin/region/update'
 import ClusterIndex from '@/components/cluster/index'
 import { store } from '@/store/index'
 
@@ -71,11 +71,11 @@ export default new Router({
         },
         {
           path: 'region/create',
-          component: AdminCreateRegion
+          component: AdminRegionCreate
         },
         {
           path: 'region/edit',
-          component: AdminUpdateRegion
+          component: AdminRegionUpdate
         },
         {
           path: 'clusters',
