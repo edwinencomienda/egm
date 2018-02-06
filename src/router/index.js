@@ -8,6 +8,7 @@ import DashboardTemplate from '@/components/common/template'
 import AdminRegionIndex from '@/components/admin/region/index'
 import AdminCreateRegion from '@/components/admin/region/create'
 import AdminUpdateRegion from '@/components/admin/region/update'
+import ClusterIndex from '@/components/cluster/index'
 import { store } from '@/store/index'
 
 const authenticationNotRequired = (to, from, next) => {
@@ -74,7 +75,7 @@ export default new Router({
         {
           path: 'clusters',
           name: 'Clusters',
-          redirect: '/dashboard'
+          component: ClusterIndex
         }
       ]
     },

@@ -15,8 +15,7 @@ export const getters = {
   DOMAIN_URL () {
     let prefix = state.userData ? state.userData.api_path_prefix : ''
     return env.BASE_URL + '/' + prefix
-  },
-  clusterPlans: state => state.userData ? state.userData.cluster_plans : []
+  }
 }
 
 export const mutations = {
@@ -33,6 +32,7 @@ export const actions = {
     return user.me().then(response => {
       commit('SET_USER_DATA', response.data)
       commit('SET_REGION', response.data.regions)
+      commit('SET_CLUSTER', response.data.cluster_plans)
     }).catch(error => {
       commit('AUTH_ERROR', error.response.status)
     })

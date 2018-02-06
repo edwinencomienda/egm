@@ -19,9 +19,7 @@ const config = {
   dictionary: null,
   strict: true
 }
-console.log(axiosConfig)
 Vue.prototype.$axios = axios.create(axiosConfig)
-console.log(axios.post('user/data'))
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueRouter)

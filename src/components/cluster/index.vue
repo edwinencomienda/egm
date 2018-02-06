@@ -1,17 +1,31 @@
 <template>
-    <div style="width:100%">
+  <div>
         <v-card>
             <v-card-title>
-            Clusters
+            Regions
             <v-spacer></v-spacer>
-            <v-text-field
-                append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-                v-model="search"
-            ></v-text-field>
+            <v-btn color="default" router to="/dashboard/region/create">
+                <v-icon dark left>add_circle</v-icon>
+                New
+            </v-btn>
             </v-card-title>
+            <v-data-table
+                v-bind:headers="headers"
+                v-bind:items="clusters"
+                v-bind:search="search"
+            >
+            <template slot="items" slot-scope="props">
+                <tr :active="props.selected" @click="props.selected = !props.selected" :id="props.item.slug">
+                    <td>{{ props.item.name }}</td>
+                    <td>{{ props.item.description }}</td>
+                    <td>{{ props.item.price }}</td>
+                    <td>{{ props.item.slug }}</td>
+                </tr>
+            </template>
+            <template slot="pageText" slot-scope="{ pageStart, pageStop }">
+                From {{ pageStart }} to {{ pageStop }}
+            </template>
+            </v-data-table>
         </v-card>
   </div>
 </template>
@@ -23,27 +37,26 @@ export default {
   name: 'clusters',
   data () {
     return {
-      items: [],
       headers: [
         {
           text: 'Name',
-          align: 'center',
-          value: 'display_name'
+          align: 'left',
+          value: 'name'
         },
         {
-          text: 'Clusters',
-          align: 'center',
-          value: 'clusters'
+          text: 'Description',
+          align: 'left',
+          value: 'description'
         },
         {
-          text: 'URL',
-          align: 'center',
-          value: 'erm_endpoint'
+          text: 'Price',
+          align: 'left',
+          value: 'price'
         },
         {
-          text: 'SLUG',
-          align: 'center',
-          value: 'erm_endpoint'
+          text: 'Slug',
+          align: 'left',
+          value: 'slug'
         }
       ],
       search: ''
@@ -51,24 +64,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      clusterPlans: 'clusterPlans'
+      clusters: 'clusters'
     })
-  },
-  created () {
-    this.items = this.clusterPlans
-  },
-  methods: {
-    changeSort (column) {
-      if (this.pagination.sortBy === column) {
-        this.pagination.descending = !this.pagination.descending
-      } else {
-        this.pagination.sortBy = column
-        this.pagination.descending = false
-      }
-    },
-    clusters (data) {
-      return data.map(o => o.display_name).join(', ')
-    }
   }
 }
 </script>

@@ -5,6 +5,7 @@ export const CREATE_REGION = 'CREATE_REGION'
 export const UPDATE_REGION = 'UPDATE_REGION'
 export const DELETE_REGION = 'DELETE_REGION'
 export const ADD_REGION = 'ADD_REGION'
+export const SET_CLUSTER = 'SET_CLUSTER'
 
 export const types = {
   admin: {
