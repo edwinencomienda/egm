@@ -1,15 +1,17 @@
 import api from '../../api/admin/region'
-import { CREATE_REGION, ADD_REGION, SET_REGION, UPDATE_REGION, DELETE_REGION } from '../../types'
+import { CREATE_REGION, ADD_REGION, SET_REGION, UPDATE_REGION, DELETE_REGION, SET_REGION_ITEM } from '../../types'
 
 export const state = {
   me: '',
   error: '',
   userData: '',
-  regions: []
+  regions: [],
+  region: ''
 }
 
 export const getters = {
-  regions: state => state.regions
+  regions: state => state.regions,
+  regionClusters: state => state.region ? state.region.clusters : []
 }
 
 export const mutations = {
@@ -18,6 +20,9 @@ export const mutations = {
   },
   [ADD_REGION] (state, payload) {
     state.regions.push(payload)
+  },
+  [SET_REGION_ITEM] (state, payload) {
+    state.region = payload
   }
 }
 

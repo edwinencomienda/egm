@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div style="width:100%;">
         <v-card>
             <v-card-title>
             Clusters
             <v-spacer></v-spacer>
-            <v-btn color="default" router to="/dashboard/region/create">
-                <v-icon dark left>add_circle</v-icon>
-                New
+            <v-btn color="default" router to="/dashboard/regions">
+                <v-icon dark left>keyboard_backspace</v-icon>
+                Back
             </v-btn>
             </v-card-title>
             <v-data-table
@@ -16,9 +16,9 @@
             >
             <template slot="items" slot-scope="props">
                 <tr :active="props.selected" @click="props.selected = !props.selected" :id="props.item.slug">
-                    <td>{{ props.item.name }}</td>
-                    <td>{{ props.item.description }}</td>
-                    <td>{{ props.item.price }}</td>
+                    <td>{{ props.item.display_name }}</td>
+                    <td>{{ props.item.public_dns }}</td>
+                    <td>{{ props.item.public_ipv4 }}</td>
                     <td>{{ props.item.slug }}</td>
                 </tr>
             </template>
@@ -39,19 +39,19 @@ export default {
     return {
       headers: [
         {
-          text: 'Name',
+          text: 'Display Name',
           align: 'left',
-          value: 'name'
+          value: 'display_name'
         },
         {
-          text: 'Description',
+          text: 'Public DNS',
           align: 'left',
-          value: 'description'
+          value: 'public_dns'
         },
         {
-          text: 'Price',
+          text: 'Public IPv4',
           align: 'left',
-          value: 'price'
+          value: 'public_ipv4'
         },
         {
           text: 'Slug',
@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      clusters: 'clusters'
+      clusters: 'regionClusters'
     })
   }
 }

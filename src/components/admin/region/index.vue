@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:100%;">
         <v-card>
             <v-card-title>
             Regions
@@ -27,7 +27,7 @@
                                 <v-icon>more_vert</v-icon>
                             </v-btn>
                             <v-list>
-                                <v-list-tile >
+                                <v-list-tile @click="setItem(props.item)">
                                     <v-icon sm>search</v-icon>
                                     <v-list-tile-title>Clusters</v-list-tile-title>
                                 </v-list-tile>
@@ -134,6 +134,10 @@ export default {
           })
         }
       }.bind(this)).catch(swal.noop)
+    },
+    setItem (data) {
+      this.$store.commit('SET_REGION_ITEM', data)
+      this.$router.push('region/clusters')
     }
   }
 }

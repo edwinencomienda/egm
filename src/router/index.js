@@ -6,6 +6,7 @@ import Dashboard from '@/components/dashboard/index'
 import DashboardTemplate from '@/components/common/template'
 
 import AdminRegionIndex from '@/components/admin/region/index'
+import AdminRegionClusterIndex from '@/components/admin/region/cluster/index'
 import AdminCreateRegion from '@/components/admin/region/create'
 import AdminUpdateRegion from '@/components/admin/region/update'
 import ClusterIndex from '@/components/cluster/index'
@@ -63,6 +64,10 @@ export default new Router({
           name: 'regions',
           component: AdminRegionIndex,
           meta: { title: 'Regions' }
+        },
+        {
+          path: 'region/clusters',
+          component: AdminRegionClusterIndex
         },
         {
           path: 'region/create',
