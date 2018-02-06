@@ -5,7 +5,6 @@ import { env } from '../../config/env'
 
 export const state = {
   me: '',
-  error: '',
   userData: ''
 }
 
@@ -34,7 +33,7 @@ export const actions = {
       commit('SET_REGION', response.data.regions)
       commit('SET_CLUSTER', response.data.cluster_plans)
     }).catch(error => {
-      commit('AUTH_ERROR', error.response.status)
+      // fails
     })
   }
 }
