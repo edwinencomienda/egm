@@ -10,6 +10,15 @@ export default {
     return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'), data)
   },
   delete (data) {
-    return axios.post(store.getters.DOMAIN_URL + 'region=' + data.region_slug + '?token=' + cookies.get('user_token_session'))
+    return axios({
+      method: 'delete',
+      data: {
+        region_slug: data.region_slug
+      },
+      url: store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 }

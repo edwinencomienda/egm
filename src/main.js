@@ -7,7 +7,6 @@ import Vuetify from 'vuetify'
 import VeeValidate from 'vee-validate'
 import VueRouter from 'vue-router'
 import { store } from './store/index.js'
-import cookies from 'vue-cookies'
 import axios from 'axios'
 import { axiosConfig } from '../config/axios.config'
 import 'vuetify/dist/vuetify.min.css'
@@ -26,7 +25,6 @@ console.log(axios.post('user/data'))
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(VueRouter)
-Vue.use(cookies)
 Vue.use(VeeValidate, config)
 
 /* eslint-disable no-new */
