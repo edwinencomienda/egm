@@ -1,24 +1,14 @@
-import axios from 'axios'
-import cookies from 'vue-cookies'
 import { store } from '../../index'
+import { axios } from '../../config/axios'
 
 export default {
   create (data) {
-    return axios.post(store.getters.DOMAIN_URL + 'region?token=' + cookies.get('user_token_session'), data)
+    return axios.post(store.getters.DOMAIN_URL + 'region', data)
   },
   update (data) {
-    return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'), data)
+    return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug, data)
   },
   delete (data) {
-    return axios({
-      method: 'delete',
-      data: {
-        region_slug: data.region_slug
-      },
-      url: store.getters.DOMAIN_URL + 'region/' + data.region_slug + '?token=' + cookies.get('user_token_session'),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
+    return axios.post(store.getters.DOMAIN_URL + 'region/' + data.region_slug, { region_slug: data.region_slug, _method: 'delete' })
   }
 }

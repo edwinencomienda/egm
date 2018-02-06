@@ -23,6 +23,14 @@ export const mutations = {
   },
   [SET_REGION_ITEM] (state, payload) {
     state.region = payload
+  },
+  [UPDATE_REGION] (state, payload) {
+    let index = state.regions.findIndex(item => item.slug === payload.slug)
+    Object.assign(state.regions[index], payload)
+  },
+  [DELETE_REGION] (state, payload) {
+    let index = state.regions.findIndex(item => item.slug === payload.slug)
+    state.regions.splice(index, 1)
   }
 }
 
@@ -45,6 +53,7 @@ export const actions = {
       data.slug = data.region_slug
       data.description = data.description ? data.description : ''
       api.update(data).then(response => {
+        commit(UPDATE_REGION, response.data)
         resolve(response)
       }, error => {
         reject(error)
@@ -55,6 +64,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       data.region_slug = data.slug
       api.delete(data).then(response => {
+        commit(DELETE_REGION, { slug: data.slug })
         resolve(response)
       }, error => {
         reject(error)

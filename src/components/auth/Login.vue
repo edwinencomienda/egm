@@ -76,7 +76,7 @@ export default {
         this.$store.dispatch('AUTH_LOGIN', data).then(() => {
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
-          this.$store.getters.AUTH_IS_LOGIN ? this.$router.push('dashboard') : this.error = true
+          this.$store.getters.AUTH_IS_LOGIN ? this.$router.go('dashboard') : this.error = true
         }).catch(() => {
         })
       })

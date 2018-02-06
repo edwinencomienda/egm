@@ -1,9 +1,8 @@
-import axios from 'axios'
-import cookies from 'vue-cookies'
 import { env } from '../../config/env'
+import { axios } from '../../config/axios'
 
 export default {
   me () {
-    return axios.post(env.USER_URL + '?token=' + cookies.get('user_token_session'))
+    return axios.post(env.USER_URL)
   }
 }
