@@ -32,7 +32,7 @@ export const actions = {
       commit('SET_USER_DATA', response.data)
       commit('SET_REGION', response.data.regions)
       commit('SET_CLUSTER', response.data.cluster_plans)
-    }).catch(error => {
+    }).catch(() => {
       // fails
     })
   }
