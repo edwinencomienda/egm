@@ -3,6 +3,6 @@ import { axios } from '../../config/axios'
 
 export default {
   me () {
-    return axios.post(env.USER_URL)
+    return axios.post(env.API_USER_DATA)
   }
 }

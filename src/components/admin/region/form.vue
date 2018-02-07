@@ -41,6 +41,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { types } from '../../../store/types'
 
 export default {
   data () {
@@ -59,7 +60,14 @@ export default {
       ],
       slug_rules: [
         (v) => !!v || 'ID is required',
-        (v) => (v && v.length <= 30) || 'Name must be less than 30 characters'
+        (v) => /^[a-z]+[-a-z0-9]*[a-z0-9]+$/u.test(v) || `
+        ID Must begin with a letter,
+        ID Must be lowercase,
+        ID Must include only letters (a-z), digits (0-9) and "-",
+        ID Must end with a letter or digit
+        `,
+        (v) => (v && v.length > 5) || 'ID must be  than 5 characters',
+        (v) => (v && v.length <= 32) || 'ID must be equal or less than 32 characters'
       ],
       display_name_rules: [
         (v) => !!v || 'Display Name is required',
@@ -107,7 +115,7 @@ export default {
         this.$store.dispatch('LOADING')
         this.$store.dispatch('DISABLE')
         let data = this.form
-        this.$store.dispatch('CREATE_REGION', data).then(() => {
+        this.$store.dispatch(types.admin.ADMIN_REGION_CREATE, data).then(() => {
           this.clear()
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
@@ -124,7 +132,7 @@ export default {
         this.$store.dispatch('LOADING')
         this.$store.dispatch('DISABLE')
         let data = Object.assign({}, this.form)
-        this.$store.dispatch('UPDATE_REGION', data).then(() => {
+        this.$store.dispatch(types.admin.ADMIN_REGION_UPDATE, data).then(() => {
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
           this.$router.push('/dashboard/regions')

@@ -31,6 +31,7 @@ export const actions = {
       if (response.status === 200) {
         cookies.set('user_token_session', response.data.access_token, 3600)
         cookies.set('user_session', JSON.stringify(response.data), 3600)
+        cookies.set('api_path_prefix', response.data.api_path_prefix)
         commit('SET_AUTH')
       }
     }).catch(error => {
@@ -40,6 +41,7 @@ export const actions = {
   AUTH_LOGOUT () {
     cookies.remove('user_session')
     cookies.remove('user_token_session')
+    cookies.remove('api_path_prefix')
   },
   SET_AUTH ({ commit }) {
     commit('SET_AUTH')

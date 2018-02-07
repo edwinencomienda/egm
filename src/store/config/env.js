@@ -1,17 +1,22 @@
 import cookies from 'vue-cookies'
 
 const BASE_URL = 'http://localhost:8001'
-const API_PREFIX = '/api/v1/'
+const API_PREFIX = cookies.get('api_path_prefix') ? '/' + cookies.get('api_path_prefix') : '/api/v1/'
 const DOMAIN_URL = BASE_URL + API_PREFIX
-const LOGIN_URL = DOMAIN_URL + 'auth/login'
-const USER_URL = DOMAIN_URL + 'user/data'
+const API_USER_DATA = DOMAIN_URL + 'data'
+const API_USER_LOGIN = DOMAIN_URL + 'auth/login'
 const ACCESS_TOKEN = cookies.get('user_token_session')
+
+// function generate api end point
+const buildApiEndpoint = (path) => {
+  return DOMAIN_URL + path
+}
 
 export const env = {
   BASE_URL,
-  API_PREFIX,
   DOMAIN_URL,
-  LOGIN_URL,
-  USER_URL,
-  ACCESS_TOKEN
+  API_USER_LOGIN,
+  API_USER_DATA,
+  ACCESS_TOKEN,
+  buildApiEndpoint
 }

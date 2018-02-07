@@ -35,6 +35,11 @@ export default {
     return {
       headers: [
         {
+          text: 'ID',
+          align: 'center',
+          value: 'slug'
+        },
+        {
           text: 'Name',
           align: 'center',
           value: 'name'
@@ -48,11 +53,6 @@ export default {
           text: 'Price',
           align: 'center',
           value: 'price'
-        },
-        {
-          text: 'ID',
-          align: 'center',
-          value: 'slug'
         }
       ],
       search: ''

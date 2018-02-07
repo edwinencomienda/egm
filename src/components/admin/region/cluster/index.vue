@@ -39,6 +39,11 @@ export default {
     return {
       headers: [
         {
+          text: 'ID',
+          align: 'left',
+          value: 'slug'
+        },
+        {
           text: 'Display Name',
           align: 'left',
           value: 'display_name'
@@ -52,11 +57,6 @@ export default {
           text: 'Public IPv4',
           align: 'left',
           value: 'public_ipv4'
-        },
-        {
-          text: 'ID',
-          align: 'left',
-          value: 'slug'
         }
       ],
       search: ''

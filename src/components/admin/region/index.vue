@@ -27,7 +27,7 @@
                                 <v-icon>more_vert</v-icon>
                             </v-btn>
                             <v-list>
-                                <v-list-tile @click="setItem(props.item)">
+                                <v-list-tile @click="viewCluster(props.item)">
                                     <v-icon sm>search</v-icon>
                                     <v-list-tile-title>Clusters</v-list-tile-title>
                                 </v-list-tile>
@@ -55,6 +55,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import swal from 'sweetalert2'
+import { types } from '../../../store/types'
 
 export default {
   name: 'clusters',
@@ -62,6 +63,11 @@ export default {
     return {
       items: [],
       headers: [
+        {
+          text: 'ID',
+          align: 'center',
+          value: 'slug'
+        },
         {
           text: 'Name',
           align: 'center',
@@ -76,11 +82,6 @@ export default {
           text: 'URL',
           align: 'center',
           value: 'erm_endpoint'
-        },
-        {
-          text: 'ID',
-          align: 'center',
-          value: 'slug'
         },
         {
           text: 'Description',
@@ -127,7 +128,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then(function (isConfirm) {
         if (isConfirm.value) {
-          this.$store.dispatch('DELETE_REGION', { slug }).then(() => {
+          this.$store.dispatch(types.admin.ADMIN_REGION_DELETE, { slug }).then(() => {
             swal('Successful', 'Deleted', 'success')
           }).catch(() => {
           // fails
@@ -135,8 +136,8 @@ export default {
         }
       }.bind(this)).catch(swal.noop)
     },
-    setItem (data) {
-      this.$store.commit('SET_REGION_ITEM', data)
+    viewCluster (data) {
+      this.$store.commit(types.admin.ADMIN_REGION_SET_ITEM, data)
       this.$router.push('region/clusters')
     }
   }
