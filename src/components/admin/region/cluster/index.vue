@@ -11,7 +11,7 @@
             </v-card-title>
             <v-data-table
                 v-bind:headers="headers"
-                v-bind:items="clusters"
+                v-bind:items="items"
                 v-bind:search="search"
             >
             <template slot="items" slot-scope="props">
@@ -64,7 +64,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      clusters: 'regionClusters'
+      items: 'admin/regionClusters'
     })
   }
 }

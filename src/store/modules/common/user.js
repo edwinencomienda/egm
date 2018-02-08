@@ -1,7 +1,6 @@
 // import user from '../api/user'
 import user from '../../api/common/user'
 import cookies from 'vue-cookies'
-import { env } from '../../config/env'
 import { types } from '../../types'
 
 export const state = {
@@ -10,12 +9,7 @@ export const state = {
 }
 
 export const getters = {
-  userData: state => state.userData,
-  apiPrefix: state => state.userData ? state.userData.api_path_prefix : '',
-  DOMAIN_URL () {
-    let prefix = state.userData ? state.userData.api_path_prefix : ''
-    return env.BASE_URL + '/' + prefix
-  }
+  userData: state => state.userData
 }
 
 export const mutations = {
@@ -32,6 +26,7 @@ export const actions = {
     return user.me().then(response => {
       commit('SET_USER_DATA', response.data)
       commit(types.admin.ADMIN_REGION_SET, response.data.regions)
+      commit(types.admin.ADMIN_PACKAGE_SET, response.data.global_packages)
       commit('SET_CLUSTER', response.data.cluster_plans)
     }).catch(() => {
       // fails

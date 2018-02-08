@@ -31,7 +31,7 @@ export const actions = {
       if (response.status === 200) {
         cookies.set('user_token_session', response.data.access_token, 3600)
         cookies.set('user_session', JSON.stringify(response.data), 3600)
-        cookies.set('api_path_prefix', response.data.api_path_prefix)
+        cookies.set('api_path_prefix', response.data.api_path_prefix, 3600)
         commit('SET_AUTH')
       }
     }).catch(error => {

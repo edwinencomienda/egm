@@ -6,10 +6,13 @@ import Dashboard from '@/components/dashboard/index'
 import DashboardTemplate from '@/components/common/template'
 
 import AdminRegionIndex from '@/components/admin/region/index'
-import AdminRegionClusterIndex from '@/components/admin/region/cluster/index'
 import AdminRegionCreate from '@/components/admin/region/create'
 import AdminRegionUpdate from '@/components/admin/region/update'
+import AdminRegionClusterIndex from '@/components/admin/region/cluster/index'
 import ClusterIndex from '@/components/cluster/index'
+
+import AdminPackageIndex from '@/components/admin/package/index'
+
 import { store } from '@/store/index'
 
 const authenticationNotRequired = (to, from, next) => {
@@ -81,6 +84,12 @@ export default new Router({
           path: 'clusters',
           name: 'Clusters',
           component: ClusterIndex
+        },
+        {
+          path: 'packages',
+          name: 'packages',
+          component: AdminPackageIndex,
+          meta: { title: 'packages' }
         }
       ]
     },

@@ -2,16 +2,13 @@ import api from '../../api/admin/region'
 import { types } from '../../types'
 
 export const state = {
-  me: '',
-  error: '',
-  userData: '',
   regions: [],
   region: ''
 }
 
 export const getters = {
-  regions: state => state.regions,
-  regionClusters: state => state.region ? state.region.clusters : []
+  'admin/regions': state => state.regions,
+  'admin/regionClusters': state => state.region ? state.region.clusters : []
 }
 
 export const mutations = {

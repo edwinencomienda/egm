@@ -3,10 +3,10 @@
         <side-bar v-if="user"></side-bar>
         <top-header v-if="user" :drawer="drawer"></top-header>
         <v-content>
-          <v-layout row wrap  class="ma-3 mt-5">
+          <v-layout row wrap class="ma-3 mt-5">
               <transition name="fade" mode="out-in">
                   <keep-alive>
-                      <router-view ></router-view>
+                    <router-view ></router-view>
                   </keep-alive>
               </transition>
           </v-layout>

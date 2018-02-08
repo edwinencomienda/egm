@@ -1,3 +1,15 @@
 .width-100-percent {
     width: 100%;
 }
+
+.content--wrap {
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: block;
+}
+
+.stepper, .stepper__header {
+    box-shadow: none !important;
+}

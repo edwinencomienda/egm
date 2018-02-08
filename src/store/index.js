@@ -5,7 +5,8 @@ import Vuex from 'vuex'
 import * as auth from './modules/common/auth.js'
 import * as common from './modules/common/common.js'
 import * as user from './modules/common/user'
-import * as region from './modules/admin/region'
+import * as adminRegion from './modules/admin/region'
+import * as adminPackage from './modules/admin/package'
 import * as cluster from './modules/common/cluster'
 import { state, getters, mutations } from './root'
 
@@ -19,7 +20,8 @@ export const store = new Vuex.Store({
     auth,
     common,
     user,
-    region,
+    adminRegion,
+    adminPackage,
     cluster
   }
 })
