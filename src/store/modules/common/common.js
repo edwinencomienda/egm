@@ -1,6 +1,10 @@
+import { types } from '../../types'
+
 export const state = {
   loading: false,
-  disable: false
+  disable: false,
+  editItem: '',
+  formState: ''
 }
 
 export const getters = {
@@ -9,35 +13,43 @@ export const getters = {
   },
   DISABLE (state) {
     return !!state.disable
-  }
+  },
+  editItem: state => state.editItem,
+  formState: state => state.formState
 }
 
 export const mutations = {
-  SET_LOADING (state, data) {
+  [types.common.SET_LOADING] (state, data) {
     state.loading = data
   },
-  SET_UNLOAD (state, data) {
+  [types.common.SET_UNLOAD] (state, data) {
     state.loading = data
   },
-  SET_DISABLE (state, data) {
+  [types.common.SET_DISABLE] (state, data) {
     state.disable = data
   },
-  SET_ENABLE (state, data) {
+  [types.common.SET_ENABLE] (state, data) {
     state.disable = data
+  },
+  [types.common.SET_FORM_STATE] (state, payload) {
+    state.formState = payload
+  },
+  [types.common.SET_EDIT_ITEM] (state, payload) {
+    state.editItem = Object.assign({}, payload)
   }
 }
 
 export const actions = {
-  LOADING ({ commit }) {
-    commit('SET_LOADING', true)
+  [types.common.LOADING] ({ commit }) {
+    commit(types.common.SET_LOADING, true)
   },
-  UNLOADING ({ commit }) {
-    commit('SET_UNLOAD', false)
+  [types.common.UNLOADING] ({ commit }) {
+    commit(types.common.SET_UNLOAD, false)
   },
-  DISABLE ({ commit }) {
-    commit('SET_DISABLE', true)
+  [types.common.DISABLE] ({ commit }) {
+    commit(types.common.SET_DISABLE, true)
   },
-  ENABLE ({ commit }) {
-    commit('SET_ENABLE', false)
+  [types.common.ENABLE] ({ commit }) {
+    commit(types.common.SET_ENABLE, false)
   }
 }

@@ -44,7 +44,7 @@ export default {
           value: 'slug'
         },
         {
-          text: 'Display Name',
+          text: 'Name',
           align: 'left',
           value: 'display_name'
         },

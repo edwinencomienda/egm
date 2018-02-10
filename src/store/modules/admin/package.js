@@ -55,8 +55,7 @@ export const actions = {
   },
   [types.admin.ADMIN_PACKAGE_DELETE] ({ commit }, data) {
     return new Promise((resolve, reject) => {
-      data.region_slug = data.slug
-      api.delete(data).then(response => {
+      api.delete({ region_slug: data.slug }).then(response => {
         commit(types.admin.ADMIN_PACKAGE_REMOVE, { slug: data.slug })
         resolve(response)
       }, error => {

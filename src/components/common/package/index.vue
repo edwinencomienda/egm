@@ -20,7 +20,6 @@
                     <td class="text-xs-center">{{ props.item.author }}</td>
                     <td class="text-xs-center">{{ props.item.author_uri }}</td>
                     <td class="text-xs-center">{{ props.item.description }}</td>
-                    <td class="text-xs-center">{{ props.item.folder_name }}</td>
                     <td class="text-xs-center">{{ props.item.official_uri }}</td>
                     <td class="text-xs-center">
                         <v-menu bottom left>
@@ -47,7 +46,7 @@
             </v-data-table>
             <v-dialog v-model="showFormDialog" max-width="550">
               <v-card>
-                <v-card-title class="headline">Package Details</v-card-title>
+                <v-card-title class="headline">Upload Package</v-card-title>
                 <form-dialog></form-dialog>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -70,7 +69,7 @@ export default {
     return {
       headers: [
         {
-          text: 'Display Name',
+          text: 'Name',
           align: 'center',
           value: 'display_name'
         },
@@ -88,11 +87,6 @@ export default {
           text: 'Description',
           align: 'center',
           value: 'description'
-        },
-        {
-          text: 'Folder Name',
-          align: 'center',
-          value: 'folder_name'
         },
         {
           text: 'Official URI',

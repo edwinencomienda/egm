@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/index'
-import DashboardTemplate from '@/components/common/template'
+import DashboardTemplate from '@/components/common/layout/Template'
 
 import AdminRegionIndex from '@/components/admin/region/index'
 import AdminRegionCreate from '@/components/admin/region/create'
@@ -11,7 +11,7 @@ import AdminRegionUpdate from '@/components/admin/region/update'
 import AdminRegionClusterIndex from '@/components/admin/region/cluster/index'
 import ClusterIndex from '@/components/cluster/index'
 
-import AdminPackageIndex from '@/components/admin/package/index'
+import PackageIndex from '@/components/common/package/index'
 
 import { store } from '@/store/index'
 
@@ -28,7 +28,10 @@ const authenticationRequired = (to, from, next) => {
     store.dispatch('SET_AUTH')
   }
   if (cookies.get('user_token_session')) {
-    store.dispatch('USER_ACTION')
+    store.dispatch('USER_ACTION').catch(() => {
+      store.dispatch('AUTH_LOGOUT')
+      store.commit('SET_USER_ERROR', true)
+    })
     next()
     return
   }
@@ -88,7 +91,7 @@ export default new Router({
         {
           path: 'packages',
           name: 'packages',
-          component: AdminPackageIndex,
+          component: PackageIndex,
           meta: { title: 'packages' }
         }
       ]

@@ -1,10 +1,20 @@
-export const SET_FORM_STATE = 'SET_FORM_STATE'
-export const SET_EDIT_ITEM = 'SET_EDIT_ITEM'
-export const SET_CLUSTER = 'SET_CLUSTER'
-
 export const types = {
+  // common actions/mutations types
+  common: {
+    LOADING: 'LOADING',
+    UNLOADING: 'UNLOADING',
+    DISABLE: 'DISABLE',
+    ENABLE: 'ENABLE',
+    SET_LOADING: 'SET_LOADING',
+    SET_UNLOAD: 'SET_UNLOAD',
+    SET_DISABLE: 'SET_DISABLE',
+    SET_ENABLE: 'SET_ENABLE',
+    SET_FORM_STATE: 'SET_FORM_STATE',
+    SET_EDIT_ITEM: 'SET_EDIT_ITEM',
+    SET_CLUSTER: 'SET_CLUSTER'
+  },
   admin: {
-    // regions
+    // regions actions/mutations types
     ADMIN_REGION_CREATE: 'ADMIN_REGION_CREATE',
     ADMIN_REGION_UPDATE: 'ADMIN_REGION_UPDATE',
     ADMIN_REGION_DELETE: 'ADMIN_REGION_DELETE',
@@ -12,7 +22,7 @@ export const types = {
     ADMIN_REGION_SET_ITEM: 'ADMIN_REGION_SET_ITEM',
     ADMIN_REGION_ADD: 'ADMIN_REGION_ADD',
     ADMIN_REGION_REMOVE: 'ADMIN_REGION_REMOVE',
-    // packages
+    // packages actions/mutations types
     ADMIN_PACKAGE_CREATE: 'ADMIN_PACKAGE_CREATE',
     ADMIN_PACKAGE_UPDATE: 'ADMIN_PACKAGE_UPDATE',
     ADMIN_PACKAGE_DELETE: 'ADMIN_PACKAGE_DELETE',

@@ -8,14 +8,10 @@ import * as user from './modules/common/user'
 import * as adminRegion from './modules/admin/region'
 import * as adminPackage from './modules/admin/package'
 import * as cluster from './modules/common/cluster'
-import { state, getters, mutations } from './root'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
-  state: state,
-  getters: getters,
-  mutations: mutations,
   modules: {
     auth,
     common,

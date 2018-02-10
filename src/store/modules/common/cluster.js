@@ -1,4 +1,4 @@
-import { SET_CLUSTER } from '../../types'
+import { types } from '../../types'
 
 export const state = {
   clusters: []
@@ -9,7 +9,7 @@ export const getters = {
 }
 
 export const mutations = {
-  [SET_CLUSTER] (state, payload) {
+  [types.common.SET_CLUSTER] (state, payload) {
     state.clusters = payload
   }
 }

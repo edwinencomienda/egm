@@ -29,9 +29,9 @@ export const actions = {
   AUTH_LOGIN ({ commit }, data) {
     return auth.login(data).then(response => {
       if (response.status === 200) {
-        cookies.set('user_token_session', response.data.access_token, 3600)
-        cookies.set('user_session', JSON.stringify(response.data), 3600)
-        cookies.set('api_path_prefix', response.data.api_path_prefix, 3600)
+        cookies.set('user_token_session', response.data.access_token, response.data.expires_in)
+        cookies.set('user_session', JSON.stringify(response.data), response.data.expires_in)
+        cookies.set('api_path_prefix', response.data.api_path_prefix, response.data.expires_in)
         commit('SET_AUTH')
       }
     }).catch(error => {

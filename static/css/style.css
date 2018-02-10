@@ -1,6 +1,12 @@
+/* Custom Styles */
+
 .width-100-percent {
     width: 100%;
 }
+
+/* end */
+
+/* Overriding Vuetify Styles */
 
 .content--wrap {
     -ms-flex: 1 0 auto;
@@ -13,3 +19,5 @@
 .stepper, .stepper__header {
     box-shadow: none !important;
 }
+
+/* end  */

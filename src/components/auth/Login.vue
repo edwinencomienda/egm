@@ -1,5 +1,5 @@
 <template>
-  <v-flex xs12 sm6 md8 lg8 xl4  offset-sm3 offset-md2 offset-lg2 offset-xl4 align-center align-content-center class="pt-2">
+  <v-flex v-show="!isLogin" xs12 sm6 md8 lg8 xl4  offset-sm3 offset-md2 offset-lg2 offset-xl4 align-center align-content-center class="pt-2">
     <v-card hover class="pa-5">
         <v-card-media contain src="/static/img/logo.svg" height="200px"></v-card-media>
         <v-card-title primary-title>
@@ -49,7 +49,8 @@ export default {
       },
       error: false,
       type: false,
-      alert: true
+      alert: true,
+      isLogin: false
     }
   },
   computed: {
@@ -76,7 +77,12 @@ export default {
         this.$store.dispatch('AUTH_LOGIN', data).then(() => {
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
-          this.$store.getters.AUTH_IS_LOGIN ? this.$router.go('dashboard') : this.error = true
+          if (this.$store.getters.AUTH_IS_LOGIN) {
+            this.isLogin = true
+            this.$router.go('dashboard')
+          } else {
+            this.error = true
+          }
         }).catch(() => {
         })
       })

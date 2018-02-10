@@ -53,6 +53,24 @@
                   required
                   multi-line
               ></v-text-field>
+              <v-text-field
+                  label="Author"
+                  v-model="form.author"
+                  :rules="rules.author"
+                  required
+              ></v-text-field>
+              <v-text-field
+                  label="Author URI"
+                  v-model="form.author_uri"
+                  :rules="rules.author_uri"
+                  required
+              ></v-text-field>
+              <v-text-field
+                  label="Official URI"
+                  v-model="form.official_uri"
+                  :rules="rules.official_uri"
+                  required
+              ></v-text-field>
             </v-form>
         </div>
         <v-btn color="primary" @click="back">Previous</v-btn>
@@ -61,19 +79,11 @@
       <v-stepper-content step="3">
         <div>
             <v-form v-model="stepOneValid" ref="form" lazy-validation class="pa-2">
-              <v-select
-                label="Must Install"
-                :items="mustInstallOptions"
-                v-model="form.must_install"
-              ></v-select>
-              <v-text-field
-                  label="Developer License Key (Optional)"
-                  v-model="form.license_key"
-              ></v-text-field>
+              <v-switch label="Must Active" v-model="form.must_install"></v-switch>
             </v-form>
         </div>
         <v-btn color="primary" @click="back">Previous</v-btn>
-        <v-btn color="primary" @click.native="step = 1">Continue</v-btn>
+        <v-btn color="primary" @click.native="step = 1">Finish</v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -93,6 +103,9 @@ export default {
         version: '',
         type: '',
         description: '',
+        author: '',
+        author_uri: '',
+        official_uri: '',
         must_install: false
       },
       rules: {
@@ -100,7 +113,10 @@ export default {
         display_name: [(v) => !!v || 'Display Name is required'],
         version: [(v) => !!v || 'Version is required'],
         type: [(v) => !!v || 'Type is required'],
-        description: [(v) => !!v || 'Description is required']
+        description: [(v) => !!v || 'Description is required'],
+        author: [(v) => !!v || 'Author is required'],
+        author_uri: [(v) => !!v || 'Author URI is required'],
+        official_uri: [(v) => !!v || 'Official URI is required']
       },
       mustInstallOptions: [
         { text: 'Yes', value: true },
