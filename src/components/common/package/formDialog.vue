@@ -179,7 +179,7 @@ export default {
       if (this.getFileExtension(this.fileName) === '.zip') {
         this.uploading = true
         let formData = new FormData()
-        formData.append('file', e.target.files[0])
+        formData.append('src', e.target.files[0])
         this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then(() => {
         }).catch(() => {
         })
