@@ -14,7 +14,7 @@
               <v-text-field
                   v-if="uploadFromURL"
                   label="URL source"
-                  v-model="form.url_source"
+                  v-model="url_source"
                   :rules="rules.url_source"
                   required
               ></v-text-field>
@@ -42,52 +42,51 @@
               ></v-checkbox>
             </v-form>
         </div>
-        <v-btn :disabled="!isFileValid && !stepOneValid" color="primary" @click.native="step = 2">Continue</v-btn>
+        <v-btn :disabled="!isFileValid" :loading="uploading" color="primary" @click.native="step = 2">Continue</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <div>
             <v-form v-model="stepOneValid" ref="formStepTwo" lazy-validation class="pa-2">
               <v-text-field
                   label="Display Name"
-                  v-model="form.display_name"
+                  v-model="form.Name"
                   :rules="rules.display_name"
                   required
               ></v-text-field>
               <v-text-field
                   label="Version"
-                  v-model="form.version"
+                  v-model="form.Version"
                   :rules="rules.version"
                   required
               ></v-text-field>
               <v-text-field
                   label="Type"
-                  v-model="form.type"
+                  v-model="form.Type"
                   :rules="rules.type"
                   required
               ></v-text-field>
               <v-text-field
                   label="Description"
-                  v-model="form.description"
+                  v-model="form.Description"
                   :rules="rules.description"
                   required
                   multi-line
               ></v-text-field>
               <v-text-field
                   label="Author"
-                  v-model="form.author"
+                  v-model="form.Author"
                   :rules="rules.author"
                   required
               ></v-text-field>
               <v-text-field
                   label="Author URI"
-                  v-model="form.author_uri"
+                  v-model="form.AuthorURI"
                   :rules="rules.author_uri"
                   required
               ></v-text-field>
               <v-text-field
                   label="Official URI"
-                  v-model="form.official_uri"
-                  :rules="rules.official_uri"
+                  v-model="form.PluginURI"
                   required
               ></v-text-field>
             </v-form>
@@ -98,11 +97,11 @@
       <v-stepper-content step="3">
         <div>
             <v-form v-model="stepOneValid" ref="formStepThree" lazy-validation class="pa-2">
-              <v-switch label="Must Active" v-model="form.must_install"></v-switch>
+              <v-switch label="Must Activate" v-model="form.must_install"></v-switch>
             </v-form>
         </div>
         <v-btn color="primary" @click="back">Previous</v-btn>
-        <v-btn color="primary" @click.native="step = 1">Finish</v-btn>
+        <v-btn color="primary" @click="savePackage" :loading="uploading" :disabled="disabled">Finish</v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -119,15 +118,8 @@ export default {
       stepOneValid: true,
       stepTwoValid: true,
       stepThreeValid: true,
+      url_source: '',
       form: {
-        url_source: '',
-        display_name: '',
-        version: '',
-        type: '',
-        description: '',
-        author: '',
-        author_uri: '',
-        official_uri: '',
         must_install: false
       },
       rules: {
@@ -137,8 +129,7 @@ export default {
         type: [(v) => !!v || 'Type is required'],
         description: [(v) => !!v || 'Description is required'],
         author: [(v) => !!v || 'Author is required'],
-        author_uri: [(v) => !!v || 'Author URI is required'],
-        official_uri: [(v) => !!v || 'Official URI is required']
+        author_uri: [(v) => !!v || 'Author URI is required']
       },
       mustInstallOptions: [
         { text: 'Yes', value: true },
@@ -148,7 +139,9 @@ export default {
       uploadFromURL: false,
       fileName: '',
       isFileValid: false,
-      uploading: false
+      uploading: false,
+      disabled: false,
+      finish: false
     }
   },
   props: ['showFormDialog'],
@@ -157,15 +150,19 @@ export default {
       if (this.uploadFromURL === true) {
         this.resetForm()
       }
+    },
+    url_source () {
+      this.onFileChange()
     }
   },
   methods: {
     nextStep () {
+      this.step++
     },
     resetForm () {
       this.fileName = ''
       this.isFileValid = false
-      this.form.url_source = ''
+      this.url_source = ''
       this.uploading = false
     },
     back () {
@@ -180,8 +177,21 @@ export default {
         this.uploading = true
         let formData = new FormData()
         formData.append('src', e.target.files[0])
-        this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then(() => {
-        }).catch(() => {
+        this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
+          if (response.status === 200) {
+            this.resetForm()
+            this.nextStep()
+            this.form = response.data
+            this.url_source = response.data.Raw
+            this.isFileValid = true
+          }
+        }).catch((error) => {
+          swal({
+            type: 'error',
+            title: 'Oops...',
+            text: error
+          })
+          this.resetForm()
         })
         // this.isFileValid = true
       } else {
@@ -192,6 +202,32 @@ export default {
           text: 'Invalid package file extension (must be zip file).'
         })
       }
+    },
+    savePackage () {
+      let data = new FormData()
+      data.set('folder_name', this.form.FolderName)
+      data.set('display_name', this.form.Name)
+      data.set('src', this.url_source)
+      data.set('version', this.form.Version)
+      data.set('type', this.form.Type)
+      data.set('description', this.form.Description)
+      data.set('metadata', this.form.Raw)
+      data.set('must_install', this.must_install ? this.must_install : 0)
+      this.uploading = true
+      this.disabled = true
+      this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
+        if (response.status === 200) {
+          console.log(response)
+        }
+      }).catch((error) => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: error
+        })
+        this.uploading = false
+        this.resetForm()
+      })
     },
     getFileExtension (fileName) {
       let i = fileName.lastIndexOf('.')

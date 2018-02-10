@@ -6,7 +6,7 @@ export default {
     return axios.post(env.buildApiEndpoint('package/fetch'), data)
   },
   create (data) {
-    return axios.post(env.buildApiEndpoint('region/create'), data)
+    return axios.post(env.buildApiEndpoint('package/create'), data)
   },
   update (data) {
     return axios.post(env.buildApiEndpoint('region/update/' + data.region_slug), data)
