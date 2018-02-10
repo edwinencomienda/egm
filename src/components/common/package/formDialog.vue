@@ -161,12 +161,6 @@ export default {
   },
   methods: {
     nextStep () {
-      // if (this.step === 1) {
-      //   if (this.$refs.formStepOne.validate()) {
-      //   }
-      // } else if (this.step === 2) {
-      // } else {
-      // }
     },
     resetForm () {
       this.fileName = ''
