@@ -100,7 +100,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'admin/packages'
+      items: 'packages'
     })
   },
   components: {

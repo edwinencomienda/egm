@@ -10,24 +10,43 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <div>
-            <v-form v-model="stepOneValid" ref="form" lazy-validation class="pa-2">
+            <v-form v-model="stepOneValid" ref="formStepOne" lazy-validation class="pa-2">
               <v-text-field
+                  v-if="uploadFromURL"
                   label="URL source"
                   v-model="form.url_source"
                   :rules="rules.url_source"
                   required
               ></v-text-field>
+              <v-btn
+                v-else
+                :loading="uploading"
+                @click="chooseFile"
+                color="blue-grey"
+                class="white--text"
+              >
+              Upload
+              <v-icon right dark>cloud_upload</v-icon>
+              </v-btn>
+              {{ fileName }}
+              <v-text-field
+                  v-show="false"
+                  @change.native="onFileChange"
+                  id="file_input"
+                  type="file"
+              ></v-text-field>
               <v-checkbox
-                v-model="form.upload_from_url"
+                class="mt-4"
+                v-model="uploadFromURL"
                 label="Upload from URL"
               ></v-checkbox>
             </v-form>
         </div>
-        <v-btn color="primary" @click.native="step = 2">Continue</v-btn>
+        <v-btn :disabled="!isFileValid && !stepOneValid" color="primary" @click.native="step = 2">Continue</v-btn>
       </v-stepper-content>
       <v-stepper-content step="2">
         <div>
-            <v-form v-model="stepOneValid" ref="form" lazy-validation class="pa-2">
+            <v-form v-model="stepOneValid" ref="formStepTwo" lazy-validation class="pa-2">
               <v-text-field
                   label="Display Name"
                   v-model="form.display_name"
@@ -78,7 +97,7 @@
       </v-stepper-content>
       <v-stepper-content step="3">
         <div>
-            <v-form v-model="stepOneValid" ref="form" lazy-validation class="pa-2">
+            <v-form v-model="stepOneValid" ref="formStepThree" lazy-validation class="pa-2">
               <v-switch label="Must Active" v-model="form.must_install"></v-switch>
             </v-form>
         </div>
@@ -90,6 +109,9 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
+import { types } from '../../../store/types'
+
 export default {
   data () {
     return {
@@ -121,13 +143,66 @@ export default {
       mustInstallOptions: [
         { text: 'Yes', value: true },
         { text: 'No', value: false }
-      ]
+      ],
+      file: '',
+      uploadFromURL: false,
+      fileName: '',
+      isFileValid: false,
+      uploading: false
     }
   },
   props: ['showFormDialog'],
+  watch: {
+    uploadFromURL () {
+      if (this.uploadFromURL === true) {
+        this.resetForm()
+      }
+    }
+  },
   methods: {
+    nextStep () {
+      // if (this.step === 1) {
+      //   if (this.$refs.formStepOne.validate()) {
+      //   }
+      // } else if (this.step === 2) {
+      // } else {
+      // }
+    },
+    resetForm () {
+      this.fileName = ''
+      this.isFileValid = false
+      this.form.url_source = ''
+      this.uploading = false
+    },
     back () {
       this.step--
+    },
+    chooseFile () {
+      document.getElementById('file_input').click()
+    },
+    onFileChange (e) {
+      this.fileName = e.target.files[0].name
+      if (this.getFileExtension(this.fileName) === '.zip') {
+        this.uploading = true
+        let formData = new FormData()
+        formData.append('file', e.target.files[0])
+        this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then(() => {
+        }).catch(() => {
+        })
+        // this.isFileValid = true
+      } else {
+        this.isFileValid = false
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Invalid package file extension (must be zip file).'
+        })
+      }
+    },
+    getFileExtension (fileName) {
+      let i = fileName.lastIndexOf('.')
+      if (i === -1) return false
+      return fileName.slice(i)
     }
   }
 }

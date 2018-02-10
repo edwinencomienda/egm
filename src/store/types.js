@@ -11,7 +11,17 @@ export const types = {
     SET_ENABLE: 'SET_ENABLE',
     SET_FORM_STATE: 'SET_FORM_STATE',
     SET_EDIT_ITEM: 'SET_EDIT_ITEM',
-    SET_CLUSTER: 'SET_CLUSTER'
+    SET_CLUSTER: 'SET_CLUSTER',
+    package: {
+      UPLOAD_FILE: 'UPLOAD_FILE',
+      PACKAGE_CREATE: 'PACKAGE_CREATE',
+      PACKAGE_UPDATE: 'PACKAGE_UPDATE',
+      PACKAGE_DELETE: 'PACKAGE_DELETE',
+      PACKAGE_SET: 'PACKAGE_SET',
+      PACKAGE_SET_ITEM: 'PACKAGE_SET_ITEM',
+      PACKAGE_ADD: 'PACKAGE_ADD',
+      PACKAGE_REMOVE: 'PACKAGE_REMOVE'
+    }
   },
   admin: {
     // regions actions/mutations types
