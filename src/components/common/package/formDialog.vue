@@ -217,7 +217,12 @@ export default {
       this.disabled = true
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
         if (response.status === 200) {
-          console.log(response)
+          this.$router.replace('/packages')
+          swal({
+            type: 'success',
+            title: 'Package',
+            text: 'Created Successfully!'
+          })
         }
       }).catch((error) => {
         swal({
