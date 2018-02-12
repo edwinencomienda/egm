@@ -112,8 +112,13 @@ export default {
       return data.map(o => o.display_name).join(', ')
     },
     editItem (data) {
-      data.region_slug = data.slug
-      this.$store.commit('SET_EDIT_ITEM', data)
+      let prepareData = {
+        regionSlug: data.slug,
+        description: data.description,
+        displayName: data.display_name,
+        ermEndpoint: data.erm_endpoint
+      }
+      this.$store.commit('SET_EDIT_ITEM', prepareData)
       this.$router.push('region/edit')
     },
     deleteItem (slug) {

@@ -51,7 +51,7 @@
               <v-text-field
                   label="Display Name"
                   v-model="form.Name"
-                  :rules="rules.display_name"
+                  :rules="rules.displayName"
                   required
               ></v-text-field>
               <v-text-field
@@ -82,7 +82,7 @@
               <v-text-field
                   label="Author URI"
                   v-model="form.AuthorURI"
-                  :rules="rules.author_uri"
+                  :rules="rules.authorUri"
                   required
               ></v-text-field>
               <v-text-field
@@ -131,7 +131,7 @@ export default {
         type: [(v) => !!v || 'Type is required.'],
         description: [(v) => !!v || 'Description is required.'],
         author: [(v) => !!v || 'Author is required.'],
-        author_uri: [(v) => !!v || 'Author URI is required.']
+        authorUri: [(v) => !!v || 'Author URI is required.']
       },
       file: '',
       uploadFromUrl: false,
@@ -139,7 +139,8 @@ export default {
       isFileValid: false,
       uploading: false,
       disabled: false,
-      finish: false
+      finish: false,
+      rawData: ''
     }
   },
   props: ['showFormDialog'],
@@ -186,7 +187,6 @@ export default {
     onFileChange (e) {
       this.fileName = e.target.files[0].name
       if (this.getFileExtension(this.fileName) === '.zip') {
-        this.uploading = true
         let formData = new FormData()
         formData.append('src', e.target.files[0])
         this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
@@ -213,6 +213,25 @@ export default {
           text: 'Invalid package file extension (must be zip file).'
         })
       }
+    },
+    uploadFile (formData) {
+      this.uploading = true
+      this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
+        if (response.status === 200) {
+          this.resetForm()
+          this.nextStep()
+          this.form = response.data
+          this.rawData = response.data.Raw
+          this.isFileValid = true
+        }
+      }).catch((error) => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: error
+        })
+        this.resetForm()
+      })
     },
     savePackage () {
       let data = new FormData()
