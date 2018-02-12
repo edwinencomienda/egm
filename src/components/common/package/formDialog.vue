@@ -14,8 +14,9 @@
               <v-text-field
                   v-if="uploadFromUrl"
                   label="URL source"
-                  v-model="url_source"
-                  :rules="rules.url_source"
+                  v-model="urlSource"
+                  :rules="rules.urlSource"
+                  @keyup="asyncFetch"
                   required
               ></v-text-field>
               <v-btn
@@ -110,6 +111,7 @@
 <script>
 import swal from 'sweetalert2'
 import { types } from '../../../store/types'
+import _ from 'lodash'
 
 export default {
   data () {
@@ -118,12 +120,12 @@ export default {
       stepOneValid: true,
       stepTwoValid: true,
       stepThreeValid: true,
-      url_source: '',
+      urlSource: '',
       form: {
         mustInstall: false
       },
       rules: {
-        url_source: [(v) => !!v || 'URL source is required.'],
+        urlSource: [(v) => !!v || 'URL source is required.'],
         display_name: [(v) => !!v || 'Display Name is required.'],
         version: [(v) => !!v || 'Version is required.'],
         type: [(v) => !!v || 'Type is required.'],
@@ -146,9 +148,6 @@ export default {
       if (this.uploadFromUrl === true) {
         this.resetForm()
       }
-    },
-    url_source () {
-      this.onFileChange()
     }
   },
   methods: {
@@ -158,7 +157,6 @@ export default {
     resetForm () {
       this.fileName = ''
       this.isFileValid = false
-      this.url_source = ''
       this.uploading = false
     },
     back () {
@@ -166,6 +164,24 @@ export default {
     },
     chooseFile () {
       document.getElementById('file_input').click()
+    },
+    url () {
+      this.uploading = true
+      this.$store.dispatch(types.common.package.UPLOAD_FILE, {'src': this.urlSource}).then((response) => {
+        if (response.status === 200) {
+          this.resetForm()
+          this.nextStep()
+          this.form = response.data
+          this.isFileValid = true
+        }
+      }).catch((error) => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: error
+        })
+        this.resetForm()
+      })
     },
     onFileChange (e) {
       this.fileName = e.target.files[0].name
@@ -176,9 +192,8 @@ export default {
         this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
           if (response.status === 200) {
             this.resetForm()
-            this.nextStep()
             this.form = response.data
-            this.url_source = response.data.Raw
+            this.nextStep()
             this.isFileValid = true
           }
         }).catch((error) => {
@@ -203,17 +218,17 @@ export default {
       let data = new FormData()
       data.set('folder_name', this.form.FolderName)
       data.set('display_name', this.form.Name)
-      data.set('src', this.url_source)
+      data.set('src', this.form.Source)
       data.set('version', this.form.Version)
       data.set('type', this.form.Type)
       data.set('description', this.form.Description)
-      data.set('metadata', this.form.Raw)
-      data.set('must_install', this.mustInstall ? this.mustInstall : 0)
+      data.set('metadata', JSON.stringify(this.form.Raw))
+      data.set('must_install', this.mustInstall ? 1 : 0)
       this.uploading = true
       this.disabled = true
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
         if (response.status === 200) {
-          this.$router.replace('/packages')
+          this.$router.go('/dashboard/packages')
           swal({
             type: 'success',
             title: 'Package',
@@ -233,7 +248,25 @@ export default {
     getFileExtension (fileName) {
       let i = fileName.lastIndexOf('.')
       return i === -1 ? false : fileName.slice(i)
-    }
+    },
+    asyncFetch: _.debounce(function () {
+      this.uploading = true
+      this.$store.dispatch(types.common.package.UPLOAD_FILE, {'src': this.urlSource}).then((response) => {
+        if (response.status === 200) {
+          this.resetForm()
+          this.nextStep()
+          this.form = response.data
+          this.isFileValid = true
+        }
+      }).catch((error) => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: error
+        })
+        this.resetForm()
+      })
+    }, 300)
   }
 }
 </script>
