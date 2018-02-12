@@ -30,7 +30,6 @@ export const actions = {
   [types.common.package.UPLOAD_FILE] ({ commit }, data) {
     return new Promise((resolve, reject) => {
       api.uploadFile(data).then(response => {
-        // commit(types.common.package.PACKAGE_ADD, response.data)
         resolve(response)
       }, error => {
         reject(error)

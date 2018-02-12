@@ -12,7 +12,7 @@
         <div>
             <v-form v-model="stepOneValid" ref="formStepOne" lazy-validation class="pa-2">
               <v-text-field
-                  v-if="uploadFromURL"
+                  v-if="uploadFromUrl"
                   label="URL source"
                   v-model="url_source"
                   :rules="rules.url_source"
@@ -37,7 +37,7 @@
               ></v-text-field>
               <v-checkbox
                 class="mt-4"
-                v-model="uploadFromURL"
+                v-model="uploadFromUrl"
                 label="Upload from URL"
               ></v-checkbox>
             </v-form>
@@ -97,7 +97,7 @@
       <v-stepper-content step="3">
         <div>
             <v-form v-model="stepOneValid" ref="formStepThree" lazy-validation class="pa-2">
-              <v-switch label="Must Activate" v-model="form.must_install"></v-switch>
+              <v-switch label="Must Activate" v-model="form.mustInstall"></v-switch>
             </v-form>
         </div>
         <v-btn color="primary" @click="back">Previous</v-btn>
@@ -120,23 +120,19 @@ export default {
       stepThreeValid: true,
       url_source: '',
       form: {
-        must_install: false
+        mustInstall: false
       },
       rules: {
-        url_source: [(v) => !!v || 'URL source is required'],
-        display_name: [(v) => !!v || 'Display Name is required'],
-        version: [(v) => !!v || 'Version is required'],
-        type: [(v) => !!v || 'Type is required'],
-        description: [(v) => !!v || 'Description is required'],
-        author: [(v) => !!v || 'Author is required'],
-        author_uri: [(v) => !!v || 'Author URI is required']
+        url_source: [(v) => !!v || 'URL source is required.'],
+        display_name: [(v) => !!v || 'Display Name is required.'],
+        version: [(v) => !!v || 'Version is required.'],
+        type: [(v) => !!v || 'Type is required.'],
+        description: [(v) => !!v || 'Description is required.'],
+        author: [(v) => !!v || 'Author is required.'],
+        author_uri: [(v) => !!v || 'Author URI is required.']
       },
-      mustInstallOptions: [
-        { text: 'Yes', value: true },
-        { text: 'No', value: false }
-      ],
       file: '',
-      uploadFromURL: false,
+      uploadFromUrl: false,
       fileName: '',
       isFileValid: false,
       uploading: false,
@@ -146,8 +142,8 @@ export default {
   },
   props: ['showFormDialog'],
   watch: {
-    uploadFromURL () {
-      if (this.uploadFromURL === true) {
+    uploadFromUrl () {
+      if (this.uploadFromUrl === true) {
         this.resetForm()
       }
     },
@@ -212,7 +208,7 @@ export default {
       data.set('type', this.form.Type)
       data.set('description', this.form.Description)
       data.set('metadata', this.form.Raw)
-      data.set('must_install', this.must_install ? this.must_install : 0)
+      data.set('must_install', this.mustInstall ? this.mustInstall : 0)
       this.uploading = true
       this.disabled = true
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
@@ -236,8 +232,7 @@ export default {
     },
     getFileExtension (fileName) {
       let i = fileName.lastIndexOf('.')
-      if (i === -1) return false
-      return fileName.slice(i)
+      return i === -1 ? false : fileName.slice(i)
     }
   }
 }

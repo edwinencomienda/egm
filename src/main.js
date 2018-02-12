@@ -32,22 +32,19 @@ new Vue({
   router,
   computed: {
     ...mapGetters({
-      userDataError: 'userDataError'
+      userDataError: 'userDataError',
+      swalDefaultErrorObject: 'swalDefaultErrorObject'
     })
   },
   watch: {
     userDataError () {
       // redirect to login if user data fails
       if (this.userDataError) {
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          showConfirmButton: false
-        })
+        swal(this.swalDefaultErrorObject)
+        // display error message for 2 seconds before redirect
         setTimeout(() => {
           window.location.href = '/'
-        }, 1500)
+        }, 2000)
       }
     }
   },

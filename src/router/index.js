@@ -1,17 +1,17 @@
 import cookies from 'vue-cookies'
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/auth/Login'
-import Dashboard from '@/components/dashboard/index'
-import DashboardTemplate from '@/components/common/layout/Template'
+import login from '@/components/auth/login'
+import dashboard from '@/components/dashboard/index'
+import dashboardTemplate from '@/components/common/layout/template'
 
-import AdminRegionIndex from '@/components/admin/region/index'
-import AdminRegionCreate from '@/components/admin/region/create'
-import AdminRegionUpdate from '@/components/admin/region/update'
-import AdminRegionClusterIndex from '@/components/admin/region/cluster/index'
-import ClusterIndex from '@/components/cluster/index'
+import adminRegionIndex from '@/components/admin/region/index'
+import adminRegionCreate from '@/components/admin/region/create'
+import adminRegionUpdate from '@/components/admin/region/update'
+import adminRegionClusterIndex from '@/components/admin/region/cluster/index'
+import clusterIndex from '@/components/cluster/index'
 
-import PackageIndex from '@/components/common/package/index'
+import packageIndex from '@/components/common/package/index'
 
 import { store } from '@/store/index'
 
@@ -51,47 +51,47 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: login,
       beforeEnter: authenticationNotRequired
     },
     {
       path: '/dashboard',
-      component: DashboardTemplate,
+      component: dashboardTemplate,
       beforeEnter: authenticationRequired,
       children: [
         {
           path: '',
           name: 'dashboard',
-          component: Dashboard,
+          component: dashboard,
           meta: { title: 'Dashboard' }
         },
         {
           path: 'regions',
           name: 'regions',
-          component: AdminRegionIndex,
+          component: adminRegionIndex,
           meta: { title: 'Regions' }
         },
         {
           path: 'region/clusters',
-          component: AdminRegionClusterIndex
+          component: adminRegionClusterIndex
         },
         {
           path: 'region/create',
-          component: AdminRegionCreate
+          component: adminRegionCreate
         },
         {
           path: 'region/edit',
-          component: AdminRegionUpdate
+          component: adminRegionUpdate
         },
         {
           path: 'clusters',
           name: 'Clusters',
-          component: ClusterIndex
+          component: clusterIndex
         },
         {
           path: 'packages',
           name: 'packages',
-          component: PackageIndex,
+          component: packageIndex,
           meta: { title: 'packages' }
         }
       ]

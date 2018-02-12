@@ -4,8 +4,6 @@
     width: 100%;
 }
 
-/* end */
-
 /* Overriding Vuetify Styles */
 
 .content--wrap {
@@ -19,5 +17,3 @@
 .stepper, .stepper__header {
     box-shadow: none !important;
 }
-
-/* end  */

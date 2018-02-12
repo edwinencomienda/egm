@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import TopHeader from '@/components/common/layout/TopHeader'
-import SideBar from '@/components/common/layout/SideBar'
+import topHeader from '@/components/common/layout/topHeader'
+import sideBar from '@/components/common/layout/sideBar'
 import { mapGetters } from 'vuex'
 export default {
   name: 'app',
@@ -30,8 +30,8 @@ export default {
     ]
   }),
   components: {
-    'top-header': TopHeader,
-    'side-bar': SideBar
+    'top-header': topHeader,
+    'side-bar': sideBar
   },
   computed: {
     ...mapGetters({

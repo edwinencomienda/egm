@@ -4,7 +4,12 @@ export const state = {
   loading: false,
   disable: false,
   editItem: '',
-  formState: ''
+  formState: '',
+  swalDefaultErrorObject: {
+    type: 'error',
+    title: 'Oops...',
+    text: 'Something went wrong!'
+  }
 }
 
 export const getters = {
@@ -15,7 +20,8 @@ export const getters = {
     return !!state.disable
   },
   editItem: state => state.editItem,
-  formState: state => state.formState
+  formState: state => state.formState,
+  swalDefaultErrorObject: state => state.swalDefaultErrorObject
 }
 
 export const mutations = {

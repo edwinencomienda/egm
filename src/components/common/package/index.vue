@@ -47,7 +47,7 @@
             <v-dialog v-model="showFormDialog" max-width="550">
               <v-card>
                 <v-card-title class="headline">Upload Package</v-card-title>
-                <form-dialog></form-dialog>
+                  <create-new-dialog></create-new-dialog>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn flat="flat" @click.native="showFormDialog = false">Cancel</v-btn>
@@ -104,7 +104,7 @@ export default {
     })
   },
   components: {
-    'form-dialog': formDialog
+    'create-new-dialog': formDialog
   },
   created () {
     this.$store.commit('SET_FORM_STATE', '')

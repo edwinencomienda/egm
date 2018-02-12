@@ -1,5 +1,5 @@
 <template>
-  <v-flex v-show="!isLogin" xs12 sm6 md8 lg8 xl4  offset-sm3 offset-md2 offset-lg2 offset-xl4 align-center align-content-center class="pt-2">
+  <v-flex v-show="!isLogin" xs12 sm6 md8 lg8 xl4 offset-sm3 offset-md2 offset-lg2 offset-xl4 align-center align-content-center class="pt-2">
     <v-card hover class="pa-5">
         <v-card-media contain src="/static/img/logo.svg" height="200px"></v-card-media>
         <v-card-title primary-title>
