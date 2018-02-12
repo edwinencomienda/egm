@@ -122,6 +122,7 @@ export default {
           this.$router.push('/dashboard/regions')
         }).catch(() => {
         // fails
+          this.$root.generalDefaultError()
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
         })
@@ -142,6 +143,7 @@ export default {
           this.$router.push('/dashboard/regions')
         }).catch(() => {
         // fails
+          this.$root.generalDefaultError()
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
         })

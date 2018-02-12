@@ -176,17 +176,14 @@ export default {
           this.isFileValid = true
         }
       }).catch((error) => {
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: error
-        })
+        this.$root.generalDefaultError(false, error)
         this.resetForm()
       })
     },
     onFileChange (e) {
       this.fileName = e.target.files[0].name
       if (this.getFileExtension(this.fileName) === '.zip') {
+        this.uploading = true
         let formData = new FormData()
         formData.append('src', e.target.files[0])
         this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
@@ -197,41 +194,14 @@ export default {
             this.isFileValid = true
           }
         }).catch((error) => {
-          swal({
-            type: 'error',
-            title: 'Oops...',
-            text: error
-          })
+          this.$root.generalDefaultError(false, error)
           this.resetForm()
         })
         // this.isFileValid = true
       } else {
         this.isFileValid = false
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: 'Invalid package file extension (must be zip file).'
-        })
+        this.$root.generalDefaultError(false, 'Invalid package file extension (must be zip file).')
       }
-    },
-    uploadFile (formData) {
-      this.uploading = true
-      this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
-        if (response.status === 200) {
-          this.resetForm()
-          this.nextStep()
-          this.form = response.data
-          this.rawData = response.data.Raw
-          this.isFileValid = true
-        }
-      }).catch((error) => {
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: error
-        })
-        this.resetForm()
-      })
     },
     savePackage () {
       let data = new FormData()
@@ -255,11 +225,7 @@ export default {
           })
         }
       }).catch((error) => {
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: error
-        })
+        this.$root.generalDefaultError(false, error)
         this.uploading = false
         this.resetForm()
       })
@@ -278,11 +244,7 @@ export default {
           this.isFileValid = true
         }
       }).catch((error) => {
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: error
-        })
+        this.$root.generalDefaultError(false, error)
         this.resetForm()
       })
     }, 300)

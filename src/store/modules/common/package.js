@@ -46,21 +46,9 @@ export const actions = {
       })
     })
   },
-  [types.common.package.PACKAGE_UPDATE] ({ commit }, data) {
-    return new Promise((resolve, reject) => {
-      data.slug = data.region_slug
-      data.description = data.description ? data.description : ''
-      api.update(data).then(response => {
-        commit(types.common.package.PACKAGE_UPDATE, response.data)
-        resolve(response)
-      }, error => {
-        reject(error)
-      })
-    })
-  },
   [types.common.package.PACKAGE_DELETE] ({ commit }, data) {
     return new Promise((resolve, reject) => {
-      api.delete({ region_slug: data.slug }).then(response => {
+      api.delete({ package_slug: data.slug }).then(response => {
         commit(types.common.package.PACKAGE_REMOVE, { slug: data.slug })
         resolve(response)
       }, error => {

@@ -31,7 +31,7 @@
                                     <v-icon sm>mode_edit</v-icon>
                                     <v-list-tile-title>update</v-list-tile-title>
                                 </v-list-tile>
-                                <v-list-tile>
+                                <v-list-tile @click="deleteItem(props.item.slug)">
                                     <v-icon sm>delete</v-icon>
                                     <v-list-tile-title>delete</v-list-tile-title>
                                 </v-list-tile>
@@ -61,7 +61,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { types } from '../../../store/types'
 import formDialog from './formDialog'
+import swal from 'sweetalert2'
 
 export default {
   name: 'packages',
@@ -117,6 +119,24 @@ export default {
         this.pagination.sortBy = column
         this.pagination.descending = false
       }
+    },
+    deleteItem (slug) {
+      swal({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this record!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (isConfirm) {
+        if (isConfirm.value) {
+          this.$store.dispatch(types.common.package.PACKAGE_DELETE, { slug }).then(() => {
+            swal('Successful', 'Deleted', 'success')
+          }).catch(error => {
+          this.$root.generalDefaultError(false, error)
+          })
+        }
+      }.bind(this)).catch(swal.noop)
     }
   }
 }

@@ -133,8 +133,8 @@ export default {
         if (isConfirm.value) {
           this.$store.dispatch(types.admin.ADMIN_REGION_DELETE, { slug }).then(() => {
             swal('Successful', 'Deleted', 'success')
-          }).catch(() => {
-          // fails
+          }).catch(error => {
+          this.$root.generalDefaultError(false, error)
           })
         }
       }.bind(this)).catch(swal.noop)

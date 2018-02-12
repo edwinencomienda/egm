@@ -6,7 +6,7 @@ import router from './router'
 import Vuetify from 'vuetify'
 import VeeValidate from 'vee-validate'
 import VueRouter from 'vue-router'
-import swal from 'sweetalert2'
+import helpers from './mixins/helpers'
 import { mapGetters } from 'vuex'
 import { store } from './store/index.js'
 import axios from 'axios'
@@ -32,15 +32,17 @@ new Vue({
   router,
   computed: {
     ...mapGetters({
-      userDataError: 'userDataError',
-      swalDefaultErrorObject: 'swalDefaultErrorObject'
+      userDataError: 'userDataError'
     })
+  },
+  methods: {
+    ...helpers
   },
   watch: {
     userDataError () {
       // redirect to login if user data fails
       if (this.userDataError) {
-        swal(this.swalDefaultErrorObject)
+        this.generalDefaultError()
         // display error message for 2 seconds before redirect
         setTimeout(() => {
           window.location.href = '/'

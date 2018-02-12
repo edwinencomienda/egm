@@ -7,5 +7,8 @@ export default {
   },
   create (data) {
     return axios.post(env.buildApiEndpoint('package/create'), data)
+  },
+  delete (data) {
+    return axios.post(env.buildApiEndpoint('package'), { package_slug: data.package_slug, _method: 'delete' })
   }
 }
