@@ -92,7 +92,7 @@ export default {
   methods: {
     clear () {
       this.form = {
-        name: '',
+        regionSlug: '',
         displayName: '',
         ermEndpoint: '',
         description: ''
@@ -111,9 +111,8 @@ export default {
         this.$store.dispatch('LOADING')
         this.$store.dispatch('DISABLE')
         let data = new FormData()
-        data.set('name', this.form.name)
-        data.set('description', this.form.description)
         data.set('display_name', this.form.displayName)
+        data.set('description', this.form.description)
         data.set('erm_endpoint', this.form.ermEndpoint)
         data.set('region_slug', this.form.regionSlug)
         this.$store.dispatch(types.admin.ADMIN_REGION_CREATE, data).then(() => {
@@ -133,9 +132,8 @@ export default {
         this.$store.dispatch('LOADING')
         this.$store.dispatch('DISABLE')
         let data = new FormData()
-        data.set('name', this.form.name)
-        data.set('description', this.form.description)
         data.set('display_name', this.form.displayName)
+        data.set('description', this.form.description)
         data.set('erm_endpoint', this.form.ermEndpoint)
         data.set('region_slug', this.form.regionSlug)
         this.$store.dispatch(types.admin.ADMIN_REGION_UPDATE, data).then(() => {

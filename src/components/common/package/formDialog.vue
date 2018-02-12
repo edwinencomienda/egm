@@ -137,7 +137,8 @@ export default {
       isFileValid: false,
       uploading: false,
       disabled: false,
-      finish: false
+      finish: false,
+      rawData: ''
     }
   },
   props: ['showFormDialog'],
@@ -148,7 +149,12 @@ export default {
       }
     },
     sourceUrl () {
-      this.onFileChange()
+      // upload file when source url changes
+      if (this.sourceUrl) {
+        let formData = new FormData()
+        formData.set('src', this.sourceUrl)
+        this.uploadFile(formData)
+      }
     }
   },
   methods: {
@@ -170,26 +176,9 @@ export default {
     onFileChange (e) {
       this.fileName = e.target.files[0].name
       if (this.getFileExtension(this.fileName) === '.zip') {
-        this.uploading = true
         let formData = new FormData()
         formData.append('src', e.target.files[0])
-        this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
-          if (response.status === 200) {
-            this.resetForm()
-            this.nextStep()
-            this.form = response.data
-            this.sourceUrl = response.data.Raw
-            this.isFileValid = true
-          }
-        }).catch((error) => {
-          swal({
-            type: 'error',
-            title: 'Oops...',
-            text: error
-          })
-          this.resetForm()
-        })
-        // this.isFileValid = true
+        this.uploadFile(formData)
       } else {
         this.isFileValid = false
         swal({
@@ -199,11 +188,30 @@ export default {
         })
       }
     },
+    uploadFile (formData) {
+      this.uploading = true
+      this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
+        if (response.status === 200) {
+          this.resetForm()
+          this.nextStep()
+          this.form = response.data
+          this.rawData = response.data.Raw
+          this.isFileValid = true
+        }
+      }).catch((error) => {
+        swal({
+          type: 'error',
+          title: 'Oops...',
+          text: error
+        })
+        this.resetForm()
+      })
+    },
     savePackage () {
       let data = new FormData()
       data.set('folder_name', this.form.FolderName)
       data.set('display_name', this.form.Name)
-      data.set('src', this.sourceUrl)
+      data.set('src', this.rawData)
       data.set('version', this.form.Version)
       data.set('type', this.form.Type)
       data.set('description', this.form.Description)
