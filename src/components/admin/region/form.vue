@@ -2,23 +2,23 @@
     <v-form v-model="valid" ref="form" lazy-validation class="pa-5">
         <v-text-field
             label="Display Name"
-            v-model="form.display_name"
-            :rules="display_name_rules"
+            v-model="form.displayName"
+            :rules="displayNameRules"
             :counter="30"
             required
         ></v-text-field>
         <v-text-field
             label="ID"
-            v-model="form.region_slug"
-            :rules="slug_rules"
+            v-model="form.regionSlug"
+            :rules="slugRules"
             :counter="30"
             required
             :disabled="edit ? true : false"
         ></v-text-field>
         <v-text-field
             label="ERM Endpoint"
-            v-model="form.erm_endpoint"
-            :rules="erm_endpoint_rules"
+            v-model="form.ermEndpoint"
+            :rules="ermEndpointRules"
             :counter="100"
             required
         ></v-text-field>
@@ -49,16 +49,12 @@ export default {
       valid: true,
       edit: false,
       form: {
-        name: '',
-        display_name: '',
-        erm_endpoint: '',
+        regionSlug: '',
+        displayName: '',
+        ermEndpoint: '',
         description: ''
       },
-      name_rules: [
-        (v) => !!v || 'Name is required',
-        (v) => (v && v.length <= 30) || 'Name must be less than 30 characters'
-      ],
-      slug_rules: [
+      slugRules: [
         (v) => !!v || 'ID is required',
         (v) => /^[a-z]+[-a-z0-9]*[a-z0-9]+$/u.test(v) || `
         ID Must begin with a letter,
@@ -69,11 +65,11 @@ export default {
         (v) => (v && v.length > 5) || 'ID must be  than 5 characters',
         (v) => (v && v.length <= 32) || 'ID must be equal or less than 32 characters'
       ],
-      display_name_rules: [
+      displayNameRules: [
         (v) => !!v || 'Display Name is required',
         (v) => (v && v.length <= 30) || 'Display Name must be less than 30 characters'
       ],
-      erm_endpoint_rules: [
+      ermEndpointRules: [
         (v) => !!v || 'ERM Endpoint is required',
         (v) => (v && v.length <= 100) || 'ERM Endpoint must be less than 100 characters'
       ]
@@ -97,8 +93,8 @@ export default {
     clear () {
       this.form = {
         name: '',
-        display_name: '',
-        erm_endpoint: '',
+        displayName: '',
+        ermEndpoint: '',
         description: ''
       }
       this.$refs.form.reset()
@@ -114,7 +110,12 @@ export default {
       if (this.$refs.form.validate()) {
         this.$store.dispatch('LOADING')
         this.$store.dispatch('DISABLE')
-        let data = this.form
+        let data = new FormData()
+        data.set('name', this.form.name)
+        data.set('description', this.form.description)
+        data.set('display_name', this.form.displayName)
+        data.set('erm_endpoint', this.form.ermEndpoint)
+        data.set('region_slug', this.form.regionSlug)
         this.$store.dispatch(types.admin.ADMIN_REGION_CREATE, data).then(() => {
           this.clear()
           this.$store.dispatch('UNLOADING')
@@ -131,7 +132,12 @@ export default {
       if (this.$refs.form.validate()) {
         this.$store.dispatch('LOADING')
         this.$store.dispatch('DISABLE')
-        let data = Object.assign({}, this.form)
+        let data = new FormData()
+        data.set('name', this.form.name)
+        data.set('description', this.form.description)
+        data.set('display_name', this.form.displayName)
+        data.set('erm_endpoint', this.form.ermEndpoint)
+        data.set('region_slug', this.form.regionSlug)
         this.$store.dispatch(types.admin.ADMIN_REGION_UPDATE, data).then(() => {
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')

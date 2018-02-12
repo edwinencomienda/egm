@@ -14,8 +14,8 @@
               <v-text-field
                   v-if="uploadFromUrl"
                   label="URL source"
-                  v-model="url_source"
-                  :rules="rules.url_source"
+                  v-model="sourceUrl"
+                  :rules="rules.sourceUrl"
                   required
               ></v-text-field>
               <v-btn
@@ -50,7 +50,7 @@
               <v-text-field
                   label="Display Name"
                   v-model="form.Name"
-                  :rules="rules.display_name"
+                  :rules="rules.displayName"
                   required
               ></v-text-field>
               <v-text-field
@@ -81,7 +81,7 @@
               <v-text-field
                   label="Author URI"
                   v-model="form.AuthorURI"
-                  :rules="rules.author_uri"
+                  :rules="rules.authorUri"
                   required
               ></v-text-field>
               <v-text-field
@@ -118,18 +118,18 @@ export default {
       stepOneValid: true,
       stepTwoValid: true,
       stepThreeValid: true,
-      url_source: '',
+      sourceUrl: '',
       form: {
         mustInstall: false
       },
       rules: {
-        url_source: [(v) => !!v || 'URL source is required.'],
-        display_name: [(v) => !!v || 'Display Name is required.'],
+        sourceUrl: [(v) => !!v || 'Source URL is required.'],
+        displayName: [(v) => !!v || 'Name is required.'],
         version: [(v) => !!v || 'Version is required.'],
         type: [(v) => !!v || 'Type is required.'],
         description: [(v) => !!v || 'Description is required.'],
         author: [(v) => !!v || 'Author is required.'],
-        author_uri: [(v) => !!v || 'Author URI is required.']
+        authorUri: [(v) => !!v || 'Author URI is required.']
       },
       file: '',
       uploadFromUrl: false,
@@ -147,7 +147,7 @@ export default {
         this.resetForm()
       }
     },
-    url_source () {
+    sourceUrl () {
       this.onFileChange()
     }
   },
@@ -158,7 +158,7 @@ export default {
     resetForm () {
       this.fileName = ''
       this.isFileValid = false
-      this.url_source = ''
+      this.sourceUrl = ''
       this.uploading = false
     },
     back () {
@@ -178,7 +178,7 @@ export default {
             this.resetForm()
             this.nextStep()
             this.form = response.data
-            this.url_source = response.data.Raw
+            this.sourceUrl = response.data.Raw
             this.isFileValid = true
           }
         }).catch((error) => {
@@ -203,7 +203,7 @@ export default {
       let data = new FormData()
       data.set('folder_name', this.form.FolderName)
       data.set('display_name', this.form.Name)
-      data.set('src', this.url_source)
+      data.set('src', this.sourceUrl)
       data.set('version', this.form.Version)
       data.set('type', this.form.Type)
       data.set('description', this.form.Description)
