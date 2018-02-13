@@ -66,12 +66,12 @@ export default {
         (v) => (v && v.length <= 32) || 'ID must be equal or less than 32 characters'
       ],
       displayNameRules: [
-        (v) => !!v || 'Display Name is required',
-        (v) => (v && v.length <= 30) || 'Display Name must be less than 30 characters'
+        (v) => !!v || 'Display name is required',
+        (v) => (v && v.length <= 30) || 'Display name must be less than 30 characters'
       ],
       ermEndpointRules: [
-        (v) => !!v || 'ERM Endpoint is required',
-        (v) => (v && v.length <= 100) || 'ERM Endpoint must be less than 100 characters'
+        (v) => !!v || 'ERM endpoint is required',
+        (v) => (v && v.length <= 100) || 'ERM endpoint must be less than 100 characters'
       ]
     }
   },

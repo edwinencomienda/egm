@@ -112,7 +112,6 @@
 </template>
 
 <script>
-import swal from 'sweetalert2'
 import { types } from '../../../store/types'
 import _ from 'lodash'
 
@@ -129,7 +128,7 @@ export default {
       },
       rules: {
         urlSource: [(v) => !!v || 'URL source is required.'],
-        display_name: [(v) => !!v || 'Display Name is required.'],
+        display_name: [(v) => !!v || 'Display name is required.'],
         version: [(v) => !!v || 'Version is required.'],
         type: [(v) => !!v || 'Type is required.'],
         description: [(v) => !!v || 'Description is required.'],
@@ -221,11 +220,7 @@ export default {
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
         if (response.status === 200) {
           this.$router.go('/dashboard/packages')
-          swal({
-            type: 'success',
-            title: 'Package',
-            text: 'Created Successfully!'
-          })
+          this.$root.generalDefaultSuccess('Package', 'Created Successfully!')
         }
       }).catch((error) => {
         this.$root.generalDefaultError(false, error)
@@ -250,7 +245,7 @@ export default {
         this.$root.generalDefaultError(false, error)
         this.resetForm()
       })
-    }, 300)
+    }, 300) // every 300 milliseconds will execute the trigger
   }
 }
 </script>

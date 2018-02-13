@@ -131,7 +131,7 @@ export default {
       }).then(function (isConfirm) {
         if (isConfirm.value) {
           this.$store.dispatch(types.common.package.PACKAGE_DELETE, { slug }).then(() => {
-            swal('Successful', 'Deleted', 'success')
+            this.$root.generalDefaultSuccess(false, 'Deleted')
           }).catch(error => {
             this.$root.generalDefaultError(false, error)
           })
