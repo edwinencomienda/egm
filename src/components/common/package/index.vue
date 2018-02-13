@@ -47,7 +47,7 @@
             <v-dialog v-model="showFormDialog" max-width="550">
               <v-card>
                 <v-card-title class="headline">Upload Package</v-card-title>
-                  <create-new-dialog></create-new-dialog>
+                  <create-new-dialog :closeFormDialog="closeFormDialog"></create-new-dialog>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn flat="flat" @click.native="showFormDialog = false">Cancel</v-btn>
@@ -133,10 +133,13 @@ export default {
           this.$store.dispatch(types.common.package.PACKAGE_DELETE, { slug }).then(() => {
             swal('Successful', 'Deleted', 'success')
           }).catch(error => {
-          this.$root.generalDefaultError(false, error)
+            this.$root.generalDefaultError(false, error)
           })
         }
       }.bind(this)).catch(swal.noop)
+    },
+    closeFormDialog () {
+      this.showFormDialog = false
     }
   }
 }

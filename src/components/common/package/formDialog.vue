@@ -104,6 +104,9 @@
         <v-btn color="primary" @click="back">Previous</v-btn>
         <v-btn color="primary" @click="savePackage" :loading="uploading" :disabled="disabled">Finish</v-btn>
       </v-stepper-content>
+      <!-- test -->
+      <button @click="closeFormDialog">test</button>
+      <!-- end test -->
     </v-stepper-items>
   </v-stepper>
 </template>
@@ -143,7 +146,7 @@ export default {
       rawData: ''
     }
   },
-  props: ['showFormDialog'],
+  props: ['closeFormDialog'],
   watch: {
     uploadFromUrl () {
       if (this.uploadFromUrl === true) {
