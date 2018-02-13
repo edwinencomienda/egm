@@ -104,9 +104,6 @@
         <v-btn color="primary" @click="back">Previous</v-btn>
         <v-btn color="primary" @click="savePackage" :loading="uploading" :disabled="disabled">Finish</v-btn>
       </v-stepper-content>
-      <!-- test -->
-      <button @click="closeFormDialog">test</button>
-      <!-- end test -->
     </v-stepper-items>
   </v-stepper>
 </template>
@@ -220,7 +217,7 @@ export default {
       this.disabled = true
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
         if (response.status === 200) {
-          this.$router.go('/dashboard/packages')
+          this.closeFormDialog()
           swal({
             type: 'success',
             title: 'Package',
