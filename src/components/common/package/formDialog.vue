@@ -1,114 +1,118 @@
 <template>
-  <v-stepper v-model="step">
-    <v-stepper-header>
-      <v-stepper-step step="1" :complete="step > 1">Upload</v-stepper-step>
-      <v-divider></v-divider>
-      <v-stepper-step step="2" :complete="step > 2">Metadata</v-stepper-step>
-      <v-divider></v-divider>
-      <v-stepper-step step="3">Settings</v-stepper-step>
-    </v-stepper-header>
-    <v-stepper-items>
-      <v-stepper-content step="1">
-        <div>
-            <v-form v-model="stepOneValid" ref="formStepOne" lazy-validation class="pa-2">
-              <v-text-field
-                  v-if="uploadFromUrl"
-                  label="URL source"
-                  v-model="urlSource"
-                  :rules="rules.urlSource"
-                  @keyup="asyncFetch"
-                  required
-              ></v-text-field>
-              <v-btn
-                v-else
-                :loading="uploading"
-                @click="chooseFile"
-                color="blue-grey"
-                class="white--text"
-              >
-              Upload
-              <v-icon right dark>cloud_upload</v-icon>
-              </v-btn>
-              {{ fileName }}
-              <v-text-field
-                  v-show="false"
-                  @change.native="onFileChange"
-                  id="file_input"
-                  type="file"
-              ></v-text-field>
-              <v-checkbox
-                class="mt-4"
-                v-model="uploadFromUrl"
-                label="Upload from URL"
-              ></v-checkbox>
-            </v-form>
-        </div>
-        <v-btn :disabled="!isFileValid" :loading="uploading" color="primary" @click.native="step = 2">Continue</v-btn>
-      </v-stepper-content>
-      <v-stepper-content step="2">
-        <div>
-            <v-form v-model="stepOneValid" ref="formStepTwo" lazy-validation class="pa-2">
-              <v-text-field
-                  label="Display Name"
-                  v-model="form.Name"
-                  :rules="rules.displayName"
-                  required
-              ></v-text-field>
-              <v-text-field
-                  label="Version"
-                  v-model="form.Version"
-                  :rules="rules.version"
-                  required
-              ></v-text-field>
-              <v-text-field
-                  label="Type"
-                  v-model="form.Type"
-                  :rules="rules.type"
-                  required
-              ></v-text-field>
-              <v-text-field
-                  label="Description"
-                  v-model="form.Description"
-                  :rules="rules.description"
-                  required
-                  multi-line
-              ></v-text-field>
-              <v-text-field
-                  label="Author"
-                  v-model="form.Author"
-                  :rules="rules.author"
-                  required
-              ></v-text-field>
-              <v-text-field
-                  label="Author URI"
-                  v-model="form.AuthorURI"
-                  :rules="rules.authorUri"
-                  required
-              ></v-text-field>
-              <v-text-field
-                  label="Official URI"
-                  v-model="form.PluginURI"
-                  required
-              ></v-text-field>
-            </v-form>
-        </div>
-        <v-btn color="primary" @click="back">Previous</v-btn>
-        <v-btn color="primary" @click.native="step = 3">Continue</v-btn>
-      </v-stepper-content>
-      <v-stepper-content step="3">
-        <div>
-            <v-form v-model="stepOneValid" ref="formStepThree" lazy-validation class="pa-2">
-              <v-switch label="Must Activate" v-model="form.mustInstall"></v-switch>
-            </v-form>
-        </div>
-        <v-btn color="primary" @click="back">Previous</v-btn>
-        <v-btn color="primary" @click="savePackage" :loading="uploading" :disabled="disabled">Finish</v-btn>
-      </v-stepper-content>
-    </v-stepper-items>
-  </v-stepper>
+  <div>
+    <v-card-title class="headline">{{ !formState ? 'Upload Package' : 'Update Package' }}</v-card-title>
+    <v-stepper v-model="step">
+      <v-stepper-header>
+        <v-stepper-step step="1" :complete="step > 1">Upload</v-stepper-step>
+        <v-divider></v-divider>
+        <v-stepper-step step="2" :complete="step > 2">Metadata</v-stepper-step>
+        <v-divider></v-divider>
+        <v-stepper-step step="3">Settings</v-stepper-step>
+      </v-stepper-header>
+      <v-stepper-items>
+        <v-stepper-content step="1">
+          <div>
+              <v-form v-model="stepOneValid" ref="formStepOne" lazy-validation class="pa-2">
+                <v-text-field
+                    v-if="uploadFromUrl"
+                    label="URL source"
+                    v-model="urlSource"
+                    :rules="rules.urlSource"
+                    @keyup="asyncFetch"
+                    required
+                ></v-text-field>
+                <v-btn
+                  v-else
+                  :loading="uploading"
+                  @click="chooseFile"
+                  color="blue-grey"
+                  class="white--text"
+                >
+                Upload
+                <v-icon right dark>cloud_upload</v-icon>
+                </v-btn>
+                {{ fileName }}
+                <v-text-field
+                    v-show="false"
+                    @change.native="onFileChange"
+                    id="file_input"
+                    type="file"
+                ></v-text-field>
+                <v-checkbox
+                  class="mt-4"
+                  v-model="uploadFromUrl"
+                  label="Upload from URL"
+                ></v-checkbox>
+              </v-form>
+          </div>
+          <v-btn :disabled="!isFileValid && formState !== 'edit'" :loading="uploading" color="primary" @click.native="step = 2">Continue</v-btn>
+        </v-stepper-content>
+        <v-stepper-content step="2">
+          <div>
+              <v-form v-model="stepTwoValid" ref="formStepTwo" lazy-validation class="pa-2">
+                <v-text-field
+                    label="Display Name"
+                    v-model="form.Name"
+                    :rules="rules.displayName"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    label="Version"
+                    v-model="form.Version"
+                    :rules="rules.version"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    label="Type"
+                    v-model="form.Type"
+                    :rules="rules.type"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    label="Description"
+                    v-model="form.Description"
+                    :rules="rules.description"
+                    required
+                    multi-line
+                ></v-text-field>
+                <v-text-field
+                    label="Author"
+                    v-model="form.Author"
+                    :rules="rules.author"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    label="Author URI"
+                    v-model="form.AuthorURI"
+                    :rules="rules.authorUri"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    label="Official URI"
+                    v-model="form.PluginURI"
+                    required
+                ></v-text-field>
+              </v-form>
+          </div>
+          <v-btn color="primary" @click="back">Previous</v-btn>
+          <v-btn color="primary" @click.native="step = 3">Continue</v-btn>
+        </v-stepper-content>
+        <v-stepper-content step="3">
+          <div>
+              <v-form v-model="stepThreeValid" ref="formStepThree" lazy-validation class="pa-2">
+                <v-switch label="Must Activate" v-model="form.mustInstall"></v-switch>
+              </v-form>
+          </div>
+          <v-btn color="primary" @click="back">Previous</v-btn>
+          <v-btn color="primary" @click="submitForm" :loading="uploading" :disabled="disabled">Finish</v-btn>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+  </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { types } from '../../../store/types'
 import _ from 'lodash'
 
@@ -121,7 +125,14 @@ export default {
       stepThreeValid: true,
       urlSource: '',
       form: {
-        mustInstall: false
+        slug: '',
+        Name: '',
+        Description: '',
+        Version: '',
+        Type: '',
+        Author: '',
+        AuthorURI: '',
+        PluginURI: ''
       },
       rules: {
         urlSource: [(v) => !!v || 'URL source is required.'],
@@ -142,12 +153,28 @@ export default {
       rawData: ''
     }
   },
-  props: ['closeFormDialog'],
+  computed: {
+    ...mapGetters({
+      editItem: 'editItem',
+      formState: 'formState'
+    })
+  },
+  props: ['closeFormDialog', 'showFormDialog'],
   watch: {
     uploadFromUrl () {
       if (this.uploadFromUrl === true) {
         this.resetForm()
       }
+    },
+    showFormDialog () {
+      // watch form state if edit then provide edit data else reset
+      if (this.formState === 'edit') {
+        this.$refs.formStepTwo.reset()
+        this.form = Object.assign({}, this.editItem)
+      } else {
+        this.resetForm()
+      }
+      this.step = 1
     }
   },
   methods: {
@@ -158,6 +185,8 @@ export default {
       this.fileName = ''
       this.isFileValid = false
       this.uploading = false
+      this.$refs.formStepOne.reset()
+      this.$refs.formStepTwo.reset()
     },
     back () {
       this.step--
@@ -202,8 +231,10 @@ export default {
         this.$root.generalDefaultError(false, 'Invalid package file extension (must be zip file).')
       }
     },
-    savePackage () {
+    prepareData () {
+      // prepare data to match naming convention
       let data = new FormData()
+      data.set('package_slug', this.form.Slug)
       data.set('folder_name', this.form.FolderName)
       data.set('display_name', this.form.Name)
       data.set('src', this.form.Source)
@@ -212,6 +243,17 @@ export default {
       data.set('description', this.form.Description)
       data.set('metadata', JSON.stringify(this.form.Raw))
       data.set('must_install', this.mustInstall ? 1 : 0)
+      return data
+    },
+    submitForm () {
+      if (this.formState !== 'edit') {
+        this.savePackage()
+      } else {
+        this.updatePackage()
+      }
+    },
+    savePackage () {
+      let data = this.prepareData() // get prepared data
       this.uploading = true
       this.disabled = true
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
@@ -222,7 +264,22 @@ export default {
       }).catch((error) => {
         this.$root.generalDefaultError(false, error)
         this.uploading = false
-        this.resetForm()
+      })
+    },
+    updatePackage () {
+      let data = this.prepareData() // get prepared data
+      this.uploading = true
+      this.disabled = true
+      this.$store.dispatch(types.common.package.PACKAGE_UPDATE, data).then((response) => {
+        if (response.status === 200) {
+          this.closeFormDialog()
+          this.$root.generalDefaultSuccess('Package', 'Successfully Updated!')
+          this.disabled = false
+        }
+      }).catch((error) => {
+        this.$root.generalDefaultError(false, error)
+        this.uploading = false
+        this.disabled = false
       })
     },
     getFileExtension (fileName) {

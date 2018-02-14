@@ -46,6 +46,16 @@ export const actions = {
       })
     })
   },
+  [types.common.package.PACKAGE_UPDATE] ({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      api.update(data).then(response => {
+        commit(types.common.package.PACKAGE_UPDATE, response.data)
+        resolve(response)
+      }, error => {
+        reject(error)
+      })
+    })
+  },
   [types.common.package.PACKAGE_DELETE] ({ commit }, data) {
     return new Promise((resolve, reject) => {
       api.delete({ package_slug: data.slug }).then(response => {

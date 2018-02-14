@@ -4,7 +4,7 @@
             <v-card-title>
             Packages
             <v-spacer></v-spacer>
-            <v-btn color="default" @click="showFormDialog = true">
+            <v-btn color="default" @click="createItem">
                 <v-icon dark left>add_circle</v-icon>
                 New
             </v-btn>
@@ -27,7 +27,7 @@
                                 <v-icon>more_vert</v-icon>
                             </v-btn>
                             <v-list>
-                                <v-list-tile>
+                                <v-list-tile @click="editItem(props.item)">
                                     <v-icon sm>mode_edit</v-icon>
                                     <v-list-tile-title>update</v-list-tile-title>
                                 </v-list-tile>
@@ -46,8 +46,11 @@
             </v-data-table>
             <v-dialog v-model="showFormDialog" max-width="550">
               <v-card>
-                <v-card-title class="headline">Upload Package</v-card-title>
-                  <create-new-dialog :closeFormDialog="closeFormDialog"></create-new-dialog>
+                  <create-new-dialog
+                  :showFormDialog="showFormDialog"
+                  :closeFormDialog="closeFormDialog"
+                  >
+                  </create-new-dialog>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn flat="flat" @click.native="showFormDialog = false">Cancel</v-btn>
@@ -119,6 +122,29 @@ export default {
         this.pagination.sortBy = column
         this.pagination.descending = false
       }
+    },
+    createItem () {
+      this.$store.commit('SET_FORM_STATE', '')
+      this.showFormDialog = true
+    },
+    editItem (data) {
+      let prepareData = {
+        Slug: data.slug,
+        Source: data.src,
+        FolderName: data.folder_name,
+        Name: data.display_name,
+        Description: data.description,
+        Version: data.version,
+        Type: data.type,
+        Author: data.author,
+        AuthorURI: data.author_uri,
+        PluginURI: data.official_uri,
+        Raw: data.metadata,
+        mustInstall: data.must_install
+      }
+      this.$store.commit('SET_EDIT_ITEM', prepareData)
+      this.$store.commit('SET_FORM_STATE', 'edit')
+      this.showFormDialog = true
     },
     deleteItem (slug) {
       swal({
