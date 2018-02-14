@@ -5,18 +5,18 @@ export const state = {
 }
 
 export const getters = {
-  clusters (state) {
-    const items = []
-    state.clusters.forEach((element) => {
-      items.push({ ...element.clusters })
-    })
-    return items
-  }
+  clusters: state => state.clusters
 }
 
 export const mutations = {
   [types.common.SET_CLUSTER] (state, payload) {
-    state.clusters = payload
+    let clusters = []
+    const regions = payload
+    // merge all clusters from all regions
+    regions.forEach(element => {
+      clusters = [...clusters, ...element.clusters]
+    })
+    state.clusters = clusters
   }
 }
 

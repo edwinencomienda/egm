@@ -7,16 +7,16 @@
             </v-card-title>
             <v-data-table
                 v-bind:headers="headers"
-                v-bind:items="clusters.clusters"
+                v-bind:items="clusters"
                 v-bind:search="search"
                 rows-per-page-items=[10,25,{text:All,value:-1}]
             >
             <template slot="items" slot-scope="props">
                 <tr :active="props.selected" @click="props.selected = !props.selected" :id="props.item.slug">
-                    <td>{{ props.item.name }}</td>
-                    <td>{{ props.item.description }}</td>
-                    <td>{{ props.item.price }}</td>
                     <td>{{ props.item.slug }}</td>
+                    <td>{{ props.item.display_name }}</td>
+                    <td>{{ props.item.public_dns }}</td>
+                    <td>{{ props.item.public_ipv4 }}</td>
                 </tr>
             </template>
             <template slot="pageText" slot-scope="{ pageStart, pageStop }">
@@ -36,23 +36,23 @@ export default {
       headers: [
         {
           text: 'ID',
-          align: 'center',
+          align: 'left',
           value: 'slug'
         },
         {
           text: 'Name',
-          align: 'center',
+          align: 'left',
           value: 'name'
         },
         {
-          text: 'Description',
-          align: 'center',
-          value: 'description'
+          text: 'Public DNSC',
+          align: 'left',
+          value: 'public_dns'
         },
         {
-          text: 'Price',
-          align: 'center',
-          value: 'price'
+          text: 'Public IPv4',
+          align: 'left',
+          value: 'public_ipv4'
         }
       ],
       search: ''
