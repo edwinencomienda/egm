@@ -55,42 +55,43 @@
                     v-model="form.Name"
                     :rules="rules.displayName"
                     required
+                    :disabled="fieldDisabled"
                 ></v-text-field>
                 <v-text-field
                     label="Version"
                     v-model="form.Version"
                     :rules="rules.version"
-                    required
+                    :disabled="fieldDisabled"
                 ></v-text-field>
                 <v-text-field
                     label="Type"
                     v-model="form.Type"
                     :rules="rules.type"
-                    required
+                    :disabled="fieldDisabled"
                 ></v-text-field>
                 <v-text-field
                     label="Description"
                     v-model="form.Description"
                     :rules="rules.description"
-                    required
+                    :disabled="fieldDisabled"
                     multi-line
                 ></v-text-field>
                 <v-text-field
                     label="Author"
                     v-model="form.Author"
                     :rules="rules.author"
-                    required
+                    :disabled="fieldDisabled"
                 ></v-text-field>
                 <v-text-field
                     label="Author URI"
                     v-model="form.AuthorURI"
                     :rules="rules.authorUri"
-                    required
+                    :disabled="fieldDisabled"
                 ></v-text-field>
                 <v-text-field
                     label="Official URI"
                     v-model="form.PluginURI"
-                    required
+                    :disabled="fieldDisabled"
                 ></v-text-field>
               </v-form>
           </div>
@@ -150,7 +151,9 @@ export default {
       uploading: false,
       disabled: false,
       finish: false,
-      rawData: ''
+      rawData: '',
+      packageSlug: '',
+      fieldDisabled: true
     }
   },
   computed: {
@@ -161,14 +164,15 @@ export default {
   },
   props: ['closeFormDialog', 'showFormDialog'],
   watch: {
-    uploadFromUrl () {
-      if (this.uploadFromUrl === true) {
-        this.resetForm()
-      }
-    },
+    // uploadFromUrl () {
+    //   if (this.uploadFromUrl === true) {
+    //     this.resetForm()
+    //   }
+    // },
     showFormDialog () {
       // watch form state if edit then provide edit data else reset
       if (this.formState === 'edit') {
+        this.packageSlug = this.editItem.Slug
         this.$refs.formStepTwo.reset()
         this.form = Object.assign({}, this.editItem)
       } else {
@@ -185,6 +189,7 @@ export default {
       this.fileName = ''
       this.isFileValid = false
       this.uploading = false
+      this.uploadUrl = false
       this.$refs.formStepOne.reset()
       this.$refs.formStepTwo.reset()
     },
@@ -201,12 +206,31 @@ export default {
           this.resetForm()
           this.nextStep()
           this.form = response.data
+          this.uploading = false
           this.isFileValid = true
         }
       }).catch((error) => {
         this.$root.generalDefaultError(false, error)
         this.resetForm()
       })
+    },
+    validateFolder (response, folderName) {
+      // check if the form state is edit then it will check the file is the same on the current form object.
+      if (this.formState === 'edit') {
+        if (this.form.FolderName === folderName) {
+          this.form = response
+          this.nextStep()
+          this.isFileValid = true
+        } else {
+          this.$root.generalDefaultError(false, 'You’re attempting to edit the package with a different one. This might cause issues.')
+          this.resetForm()
+          this.closeFormDialog()
+        }
+      } else {
+        this.form = response
+        this.nextStep()
+        this.isFileValid = true
+      }
     },
     onFileChange (e) {
       this.fileName = e.target.files[0].name
@@ -216,10 +240,8 @@ export default {
         formData.append('src', e.target.files[0])
         this.$store.dispatch(types.common.package.UPLOAD_FILE, formData).then((response) => {
           if (response.status === 200) {
-            this.resetForm()
-            this.form = response.data
-            this.nextStep()
-            this.isFileValid = true
+            this.validateFolder(response.data, response.data.FolderName)
+            this.uploading = false
           }
         }).catch((error) => {
           this.$root.generalDefaultError(false, error)
@@ -234,10 +256,12 @@ export default {
     prepareData () {
       // prepare data to match naming convention
       let data = new FormData()
-      data.set('package_slug', this.form.Slug)
+      data.set('package_slug', this.packageSlug)
       data.set('folder_name', this.form.FolderName)
       data.set('display_name', this.form.Name)
       data.set('src', this.form.Source)
+      data.set('author', this.form.Author)
+      data.set('author_uri', this.form.AuthorURI)
       data.set('version', this.form.Version)
       data.set('type', this.form.Type)
       data.set('description', this.form.Description)
@@ -258,8 +282,10 @@ export default {
       this.disabled = true
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
         if (response.status === 200) {
-          this.closeFormDialog()
           this.$root.generalDefaultSuccess('Package', 'Created Successfully!')
+          this.closeFormDialog()
+          this.resetForm()
+          this.uploading = false
         }
       }).catch((error) => {
         this.$root.generalDefaultError(false, error)
@@ -267,7 +293,10 @@ export default {
       })
     },
     updatePackage () {
-      let data = this.prepareData() // get prepared data
+      let data = {
+        data: this.prepareData(),
+        package_slug: this.packageSlug
+      } // get prepared data
       this.uploading = true
       this.disabled = true
       this.$store.dispatch(types.common.package.PACKAGE_UPDATE, data).then((response) => {
@@ -275,6 +304,7 @@ export default {
           this.closeFormDialog()
           this.$root.generalDefaultSuccess('Package', 'Successfully Updated!')
           this.disabled = false
+          this.uploading = false
         }
       }).catch((error) => {
         this.$root.generalDefaultError(false, error)
@@ -290,10 +320,8 @@ export default {
       this.uploading = true
       this.$store.dispatch(types.common.package.UPLOAD_FILE, {'src': this.urlSource}).then((response) => {
         if (response.status === 200) {
-          this.resetForm()
-          this.nextStep()
-          this.form = response.data
-          this.isFileValid = true
+          this.validateFolder(response.data, response.data.FolderName)
+          this.uploading = false
         }
       }).catch((error) => {
         this.$root.generalDefaultError(false, error)

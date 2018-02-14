@@ -5,7 +5,13 @@ export const state = {
 }
 
 export const getters = {
-  clusters: state => state.clusters
+  clusters (state) {
+    const items = []
+    state.clusters.forEach((element) => {
+      items.push({ ...element.clusters })
+    })
+    return items
+  }
 }
 
 export const mutations = {

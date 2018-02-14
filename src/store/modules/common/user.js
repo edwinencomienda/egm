@@ -32,7 +32,7 @@ export const actions = {
         commit('SET_USER_DATA', response.data)
         commit(types.admin.ADMIN_REGION_SET, response.data.regions)
         commit(types.common.package.PACKAGE_SET, response.data.global_packages)
-        commit(types.common.SET_CLUSTER, response.data.cluster_plans)
+        commit(types.common.SET_CLUSTER, response.data.regions)
         resolve(response)
       }, error => {
         reject(error)

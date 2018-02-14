@@ -7,7 +7,7 @@
             </v-card-title>
             <v-data-table
                 v-bind:headers="headers"
-                v-bind:items="clusters"
+                v-bind:items="clusters.clusters"
                 v-bind:search="search"
             >
             <template slot="items" slot-scope="props">
@@ -28,7 +28,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 export default {
   name: 'clusters',
   data () {
