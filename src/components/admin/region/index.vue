@@ -28,8 +28,8 @@
                             </v-btn>
                             <v-list>
                                 <v-list-tile @click="viewCluster(props.item)">
-                                    <v-icon sm>search</v-icon>
-                                    <v-list-tile-title>Clusters</v-list-tile-title>
+                                    <v-icon sm>cloud</v-icon>
+                                    <v-list-tile-title>clusters</v-list-tile-title>
                                 </v-list-tile>
                                 <v-list-tile @click="editItem(props.item)">
                                     <v-icon sm>mode_edit</v-icon>

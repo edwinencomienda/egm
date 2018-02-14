@@ -101,7 +101,7 @@
         <v-stepper-content step="3">
           <div>
               <v-form v-model="stepThreeValid" ref="formStepThree" lazy-validation class="pa-2">
-                <v-switch label="Must Activate" v-model="form.mustInstall"></v-switch>
+                <v-switch label="Must Activate" color="green" v-model="form.mustInstall"></v-switch>
               </v-form>
           </div>
           <v-btn color="primary" @click="back">Previous</v-btn>
