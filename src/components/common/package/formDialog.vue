@@ -84,13 +84,13 @@
                 ></v-text-field>
                 <v-text-field
                     label="Author URI"
-                    v-model="form.AuthorURI"
+                    v-model="form.authorURI"
                     :rules="rules.authorUri"
                     :disabled="fieldDisabled"
                 ></v-text-field>
                 <v-text-field
                     label="Official URI"
-                    v-model="form.PluginURI"
+                    v-model="form.uri"
                     :disabled="fieldDisabled"
                 ></v-text-field>
               </v-form>
@@ -133,16 +133,12 @@ export default {
         Type: '',
         Author: '',
         AuthorURI: '',
-        PluginURI: ''
+        PluginURI: '',
+        mustInstall: true
       },
       rules: {
         urlSource: [(v) => !!v || 'URL source is required.'],
-        display_name: [(v) => !!v || 'Display name is required.'],
-        version: [(v) => !!v || 'Version is required.'],
-        type: [(v) => !!v || 'Type is required.'],
-        description: [(v) => !!v || 'Description is required.'],
-        author: [(v) => !!v || 'Author is required.'],
-        authorUri: [(v) => !!v || 'Author URI is required.']
+        display_name: [(v) => !!v || 'Display name is required.']
       },
       file: '',
       uploadFromUrl: false,
@@ -164,11 +160,6 @@ export default {
   },
   props: ['closeFormDialog', 'showFormDialog'],
   watch: {
-    // uploadFromUrl () {
-    //   if (this.uploadFromUrl === true) {
-    //     this.resetForm()
-    //   }
-    // },
     showFormDialog () {
       // watch form state if edit then provide edit data else reset
       if (this.formState === 'edit') {
@@ -219,6 +210,7 @@ export default {
       if (this.formState === 'edit') {
         if (this.form.FolderName === folderName) {
           this.form = response
+          this.form.uri = response.PluginURI || response.ThemeURI || response.URI
           this.nextStep()
           this.isFileValid = true
         } else {
@@ -228,11 +220,13 @@ export default {
         }
       } else {
         this.form = response
+        this.form.uri = response.PluginURI || response.ThemeURI || response.URI
         this.nextStep()
         this.isFileValid = true
       }
     },
     onFileChange (e) {
+      console.log(this.fileName)
       this.fileName = e.target.files[0].name
       if (this.getFileExtension(this.fileName) === '.zip') {
         this.uploading = true
@@ -259,14 +253,15 @@ export default {
       data.set('package_slug', this.packageSlug)
       data.set('folder_name', this.form.FolderName)
       data.set('display_name', this.form.Name)
-      data.set('src', this.form.Source)
+      data.set('official_uri', this.form.uri)
+      data.set('src', this.form.Source ? this.form.Source : this.fileName)
       data.set('author', this.form.Author)
       data.set('author_uri', this.form.AuthorURI)
       data.set('version', this.form.Version)
       data.set('type', this.form.Type)
       data.set('description', this.form.Description)
       data.set('metadata', JSON.stringify(this.form.Raw))
-      data.set('must_install', this.mustInstall ? 1 : 0)
+      data.set('must_install', this.form.mustInstall ? 1 : 0)
       return data
     },
     submitForm () {
@@ -283,9 +278,9 @@ export default {
       this.$store.dispatch(types.common.package.PACKAGE_CREATE, data).then((response) => {
         if (response.status === 200) {
           this.$root.generalDefaultSuccess('Package', 'Created Successfully!')
+          this.uploading = false
           this.closeFormDialog()
           this.resetForm()
-          this.uploading = false
         }
       }).catch((error) => {
         this.$root.generalDefaultError(false, error)
