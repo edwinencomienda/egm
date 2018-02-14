@@ -21,7 +21,8 @@ export const types = {
       PACKAGE_SET_ITEM: 'PACKAGE_SET_ITEM',
       PACKAGE_ADD: 'PACKAGE_ADD',
       PACKAGE_REMOVE: 'PACKAGE_REMOVE'
-    }
+    },
+    SET_TABLE_LOADING: 'SET_TABLE_LOADING'
   },
   admin: {
     // regions actions/mutations types
