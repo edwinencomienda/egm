@@ -74,6 +74,7 @@ export default new Router({
     },
     {
       path: createRoute('/regions'),
+      meta: { title: 'Regions' },
       component: AdminRegionTemplate,
       beforeEnter: authenticationRequired,
       children: [

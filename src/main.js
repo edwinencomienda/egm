@@ -37,11 +37,7 @@ new Vue({
     })
   },
   methods: {
-    ...helpers,
-    // create routes from app route prefix
-    createRoute (path) {
-      return this.appPathPrefix + path
-    }
+    ...helpers
   },
   watch: {
     userDataError () {

@@ -6,7 +6,7 @@
           <v-layout row wrap class="ma-3 mt-5">
               <transition name="fade" mode="out-in">
                   <keep-alive>
-                    <router-view ></router-view>
+                    <router-view :key="$route.fullPath"></router-view>
                   </keep-alive>
               </transition>
           </v-layout>
