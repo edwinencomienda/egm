@@ -23,9 +23,13 @@ const authenticationNotRequired = (to, from, next) => {
   next('/')
 }
 
+let appPathPrefix = cookies.get('app_path_prefix')
+
 const authenticationRequired = (to, from, next) => {
   if (!store.getters.AUTH_IS_LOGIN) {
     store.dispatch('SET_AUTH')
+    // set app prefix by user role and set as app root path
+    store.commit('SET_APP_PATH_PREFIX', cookies.get('app_path_prefix'))
   }
   if (cookies.get('user_token_session')) {
     store.dispatch('USER_ACTION').catch(() => {
@@ -45,7 +49,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      redirect: '/dashboard',
+      redirect: appPathPrefix,
       beforeEnter: authenticationRequired
     },
     {
@@ -55,7 +59,7 @@ export default new Router({
       beforeEnter: authenticationNotRequired
     },
     {
-      path: '/dashboard',
+      path: appPathPrefix,
       component: dashboardTemplate,
       beforeEnter: authenticationRequired,
       children: [

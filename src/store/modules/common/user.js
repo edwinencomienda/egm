@@ -5,12 +5,14 @@ import { types } from '../../types'
 export const state = {
   me: '',
   userData: '',
-  userDataError: false
+  userDataError: false,
+  appPathPrefix: ''
 }
 
 export const getters = {
   userData: state => state.userData,
-  userDataError: state => state.userDataError
+  userDataError: state => state.userDataError,
+  appPathPrefix: state => state.appPathPrefix ? state.appPathPrefix : ''
 }
 
 export const mutations = {
@@ -22,6 +24,9 @@ export const mutations = {
   },
   SET_USER_ERROR (state, payload) {
     state.userDataError = payload
+  },
+  SET_APP_PATH_PREFIX (state, payload) {
+    state.appPathPrefix = payload
   }
 }
 

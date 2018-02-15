@@ -4,7 +4,7 @@
             <v-card-title>
             Regions
             <v-spacer></v-spacer>
-            <v-btn color="default" router to="/dashboard/region/create">
+            <v-btn color="default" @click="$router.push('region/create')">
                 <v-icon dark left>add_circle</v-icon>
                 New
             </v-btn>
