@@ -32,16 +32,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'side-bar',
+  computed: {
+    ...mapGetters({
+      appPathPrefix: 'appPathPrefix'
+    }),
+    items () {
+      return [
+        {icon: 'public', text: 'Regions', link: this.appPathPrefix + '/regions'},
+        {icon: 'apps', text: 'Clusters', link: this.appPathPrefix + '/clusters'},
+        {icon: 'work', text: 'Packages', link: this.appPathPrefix + '/packages'}
+      ]
+    }
+  },
   data: () => ({
     dialog: false,
-    drawer: null,
-    items: [
-      {icon: 'public', text: 'Regions', link: window.roothPath + '/regions'},
-      {icon: 'apps', text: 'Clusters', link: window.roothPath + '/clusters'},
-      {icon: 'work', text: 'Packages', link: window.roothPath + '/packages'}
-    ]
+    drawer: null
   })
 }
 </script>
