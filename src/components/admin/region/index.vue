@@ -13,6 +13,8 @@
                 v-bind:headers="headers"
                 v-bind:items="items"
                 v-bind:search="search"
+                :rows-per-page-items="[ 10, 25, { text:'All', value: -1 } ]"
+                :loading=tableLoading
             >
             <template slot="items" slot-scope="props">
                 <tr :active="props.selected" @click="props.selected = !props.selected" :id="props.item.slug">
@@ -93,7 +95,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items: 'admin/regions'
+      items: 'admin/regions',
+      tableLoading: 'tableLoading'
     })
   },
   created () {
