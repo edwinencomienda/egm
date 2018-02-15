@@ -14,5 +14,9 @@ export default {
       title: !title ? 'Oops...' : title,
       text: !text ? 'Something wrong happened.' : text
     })
+  },
+  // create routes from app route prefix
+  createRoute (path) {
+    return this.appPathPrefix + path
   }
 }

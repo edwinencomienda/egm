@@ -46,11 +46,11 @@
             </v-data-table>
             <v-dialog v-model="showFormDialog" max-width="550">
               <v-card>
-                  <create-new-dialog
+                  <form-dialog
                   :showFormDialog="showFormDialog"
                   :closeFormDialog="closeFormDialog"
                   >
-                  </create-new-dialog>
+                  </form-dialog>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn flat="flat" @click.native="showFormDialog = false">Cancel</v-btn>
@@ -65,7 +65,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { types } from '../../../store/types'
-import formDialog from './formDialog'
+import FormDialog from './FormDialog'
 import swal from 'sweetalert2'
 
 export default {
@@ -109,7 +109,7 @@ export default {
     })
   },
   components: {
-    'create-new-dialog': formDialog
+    'form-dialog': FormDialog
   },
   created () {
     this.$store.commit('SET_FORM_STATE', '')

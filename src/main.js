@@ -32,11 +32,16 @@ new Vue({
   router,
   computed: {
     ...mapGetters({
-      userDataError: 'userDataError'
+      userDataError: 'userDataError',
+      appPathPrefix: 'appPathPrefix'
     })
   },
   methods: {
-    ...helpers
+    ...helpers,
+    // create routes from app route prefix
+    createRoute (path) {
+      return this.appPathPrefix + path
+    }
   },
   watch: {
     userDataError () {

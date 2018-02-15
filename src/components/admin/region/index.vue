@@ -4,7 +4,7 @@
             <v-card-title>
             Regions
             <v-spacer></v-spacer>
-            <v-btn color="default" @click="$router.push('region/create')">
+            <v-btn color="default" router :to="$root.createRoute('/regions/create')">
                 <v-icon dark left>add_circle</v-icon>
                 New
             </v-btn>
@@ -119,7 +119,7 @@ export default {
         ermEndpoint: data.erm_endpoint
       }
       this.$store.commit('SET_EDIT_ITEM', prepareData)
-      this.$router.push('region/edit')
+      this.$router.push('regions/update')
     },
     deleteItem (slug) {
       swal({
@@ -141,7 +141,7 @@ export default {
     },
     viewCluster (data) {
       this.$store.commit(types.admin.ADMIN_REGION_SET_ITEM, data)
-      this.$router.push('region/clusters')
+      this.$router.push('regions/clusters')
     }
   }
 }

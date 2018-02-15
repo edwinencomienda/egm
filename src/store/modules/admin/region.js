@@ -47,8 +47,6 @@ export const actions = {
   },
   [types.admin.ADMIN_REGION_UPDATE] ({ commit }, data) {
     return new Promise((resolve, reject) => {
-      data.slug = data.region_slug
-      data.description = data.description ? data.description : ''
       api.update(data).then(response => {
         commit(types.admin.ADMIN_REGION_UPDATE, response.data)
         resolve(response)

@@ -62,11 +62,12 @@ export default {
         ID Must include only letters (a-z), digits (0-9) and "-",
         ID Must end with a letter or digit
         `,
-        (v) => (v && v.length > 5) || 'ID must be  than 5 characters',
+        (v) => (v && v.length >= 5) || 'ID must be at least 5 characters',
         (v) => (v && v.length <= 32) || 'ID must be equal or less than 32 characters'
       ],
       displayNameRules: [
         (v) => !!v || 'Display name is required',
+        (v) => (v && v.length >= 5) || 'Display name must be at least 5 characters',
         (v) => (v && v.length <= 30) || 'Display name must be less than 30 characters'
       ],
       ermEndpointRules: [
@@ -119,7 +120,7 @@ export default {
           this.clear()
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
-          this.$router.go(-1)
+          this.$router.push(this.$root.createRoute('/regions'))
         }).catch(() => {
         // fails
           this.$root.generalDefaultError()
@@ -137,10 +138,10 @@ export default {
         data.set('description', this.form.description)
         data.set('erm_endpoint', this.form.ermEndpoint)
         data.set('region_slug', this.form.regionSlug)
-        this.$store.dispatch(types.admin.ADMIN_REGION_UPDATE, data).then(() => {
+        this.$store.dispatch(types.admin.ADMIN_REGION_UPDATE, { region_slug: this.form.regionSlug, data: data }).then(() => {
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
-          this.$router.go(-1)
+          this.$router.push(this.$root.createRoute('/regions'))
         }).catch(() => {
         // fails
           this.$root.generalDefaultError()

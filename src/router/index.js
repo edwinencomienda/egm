@@ -1,17 +1,18 @@
 import cookies from 'vue-cookies'
 import Vue from 'vue'
 import Router from 'vue-router'
-import login from '@/components/auth/login'
-import dashboard from '@/components/dashboard/index'
-import dashboardTemplate from '@/components/common/layout/template'
+import login from '@/components/auth/Login'
+import Dashboard from '@/components/dashboard/Index'
 
-import adminRegionIndex from '@/components/admin/region/index'
-import adminRegionCreate from '@/components/admin/region/create'
-import adminRegionUpdate from '@/components/admin/region/update'
-import adminRegionClusterIndex from '@/components/admin/region/cluster/index'
-import clusterIndex from '@/components/cluster/index'
+import AdminRegionTemplate from '@/components/admin/region/Template'
+import AdminRegionIndex from '@/components/admin/region/Index'
+import AdminRegionCreate from '@/components/admin/region/Create'
+import AdminRegionUpdate from '@/components/admin/region/Update'
+import AdminRegionCluster from '@/components/admin/region/cluster/Index'
 
-import packageIndex from '@/components/common/package/index'
+import ClusterIndex from '@/components/cluster/Index'
+
+import PackageIndex from '@/components/common/package/Index'
 
 import { store } from '@/store/index'
 
@@ -23,7 +24,7 @@ const authenticationNotRequired = (to, from, next) => {
   next('/')
 }
 
-let appPathPrefix = cookies.get('app_path_prefix')
+let appPathPrefix = cookies.get('app_path_prefix') ? cookies.get('app_path_prefix') : '/login'
 
 const authenticationRequired = (to, from, next) => {
   if (!store.getters.AUTH_IS_LOGIN) {
@@ -32,10 +33,12 @@ const authenticationRequired = (to, from, next) => {
     store.commit('SET_APP_PATH_PREFIX', cookies.get('app_path_prefix'))
   }
   if (cookies.get('user_token_session')) {
-    store.dispatch('USER_ACTION').catch(() => {
-      store.dispatch('AUTH_LOGOUT')
-      store.commit('SET_USER_ERROR', true)
-    })
+    if (!store.getters.userData) {
+      store.dispatch('USER_ACTION').catch(() => {
+        store.dispatch('AUTH_LOGOUT')
+        store.commit('SET_USER_ERROR', true)
+      })
+    }
     next()
     return
   }
@@ -44,12 +47,17 @@ const authenticationRequired = (to, from, next) => {
 
 Vue.use(Router)
 
+// create route from app path prefix
+function createRoute (path) {
+  return appPathPrefix + path
+}
+
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      redirect: appPathPrefix,
+      redirect: createRoute('/dashboard'),
       beforeEnter: authenticationRequired
     },
     {
@@ -59,46 +67,46 @@ export default new Router({
       beforeEnter: authenticationNotRequired
     },
     {
-      path: appPathPrefix,
-      component: dashboardTemplate,
+      path: createRoute('/dashboard'),
+      name: 'dashboard',
+      component: Dashboard,
+      beforeEnter: authenticationRequired
+    },
+    {
+      path: createRoute('/regions'),
+      component: AdminRegionTemplate,
       beforeEnter: authenticationRequired,
       children: [
         {
           path: '',
-          name: 'dashboard',
-          component: dashboard,
-          meta: { title: 'Dashboard' }
-        },
-        {
-          path: 'regions',
           name: 'regions',
-          component: adminRegionIndex,
-          meta: { title: 'Regions' }
+          component: AdminRegionIndex
         },
         {
-          path: 'region/clusters',
-          component: adminRegionClusterIndex
+          path: 'create',
+          component: AdminRegionCreate
         },
         {
-          path: 'region/create',
-          component: adminRegionCreate
-        },
-        {
-          path: 'region/edit',
-          component: adminRegionUpdate
+          path: 'update',
+          component: AdminRegionUpdate
         },
         {
           path: 'clusters',
-          name: 'Clusters',
-          component: clusterIndex
-        },
-        {
-          path: 'packages',
-          name: 'packages',
-          component: packageIndex,
-          meta: { title: 'packages' }
+          component: AdminRegionCluster
         }
       ]
+    },
+    {
+      path: createRoute('/clusters'),
+      meta: { title: 'Clusters' },
+      component: ClusterIndex,
+      beforeEnter: authenticationRequired
+    },
+    {
+      path: createRoute('/packages'),
+      meta: { title: 'Packages' },
+      component: PackageIndex,
+      beforeEnter: authenticationRequired
     },
     { path: '*', redirect: '/' }
   ]

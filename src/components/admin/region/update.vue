@@ -4,7 +4,7 @@
             <v-card-title>
                 Update Region
                 <v-spacer></v-spacer>
-                <v-btn color="default" @click="$router.go(-1)">
+                <v-btn color="default" :to="$root.createRoute('/regions')">
                     <v-icon dark left>keyboard_backspace</v-icon>
                     Back
                 </v-btn>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import ItemForm from './form'
+import ItemForm from './Form'
 
 export default {
   created () {
