@@ -40,12 +40,15 @@ const authenticationRequired = (to, from, next) => {
 
 Vue.use(Router)
 
+// get app prefix by user role and set as app root path
+window.roothPath = cookies.get('app_path_prefix')
+
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      redirect: '/dashboard',
+      redirect: window.roothPath,
       beforeEnter: authenticationRequired
     },
     {
@@ -55,7 +58,7 @@ export default new Router({
       beforeEnter: authenticationNotRequired
     },
     {
-      path: '/dashboard',
+      path: window.roothPath,
       component: dashboardTemplate,
       beforeEnter: authenticationRequired,
       children: [

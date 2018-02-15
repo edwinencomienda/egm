@@ -119,7 +119,7 @@ export default {
           this.clear()
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
-          this.$router.push('/dashboard/regions')
+          this.$router.go(-1)
         }).catch(() => {
         // fails
           this.$root.generalDefaultError()
@@ -140,7 +140,7 @@ export default {
         this.$store.dispatch(types.admin.ADMIN_REGION_UPDATE, data).then(() => {
           this.$store.dispatch('UNLOADING')
           this.$store.dispatch('ENABLE')
-          this.$router.push('/dashboard/regions')
+          this.$router.go(-1)
         }).catch(() => {
         // fails
           this.$root.generalDefaultError()

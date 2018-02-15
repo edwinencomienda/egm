@@ -4,7 +4,7 @@
             <v-card-title>
                 Update Region
                 <v-spacer></v-spacer>
-                <v-btn color="default" router to="/dashboard/regions">
+                <v-btn color="default" @click="$router.go(-1)">
                     <v-icon dark left>keyboard_backspace</v-icon>
                     Back
                 </v-btn>

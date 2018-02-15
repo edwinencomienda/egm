@@ -10,7 +10,8 @@ export const state = {
 
 export const getters = {
   userData: state => state.userData,
-  userDataError: state => state.userDataError
+  userDataError: state => state.userDataError,
+  userRole: state => state.userData ? state.userData.me.role : ''
 }
 
 export const mutations = {

@@ -32,6 +32,12 @@ export const actions = {
         cookies.set('user_token_session', response.data.access_token, response.data.expires_in)
         cookies.set('user_session', JSON.stringify(response.data), response.data.expires_in)
         cookies.set('api_path_prefix', response.data.api_path_prefix, response.data.expires_in)
+        // check if admin then set route prefix
+        if (response.data.api_path_prefix.indexOf('admin') > 0) {
+          cookies.set('app_path_prefix', '/admin/dashboard', response.data.expires_in)
+        } else {
+          cookies.set('app_path_prefix', '/partner/dashboard', response.data.expires_in)
+        }
         commit('SET_AUTH')
       }
     }).catch(error => {

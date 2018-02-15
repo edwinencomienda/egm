@@ -38,9 +38,9 @@ export default {
     dialog: false,
     drawer: null,
     items: [
-      {icon: 'public', text: 'Regions', link: '/dashboard/regions'},
-      {icon: 'apps', text: 'Clusters', link: '/dashboard/clusters'},
-      {icon: 'work', text: 'Packages', link: '/dashboard/packages'}
+      {icon: 'public', text: 'Regions', link: window.roothPath + '/regions'},
+      {icon: 'apps', text: 'Clusters', link: window.roothPath + '/clusters'},
+      {icon: 'work', text: 'Packages', link: window.roothPath + '/packages'}
     ]
   })
 }
