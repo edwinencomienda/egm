@@ -5,7 +5,7 @@ export const state = {
 }
 
 export const getters = {
-  apps: state => state.apps
+  'partner/apps': state => state.apps
 }
 
 export const mutations = {

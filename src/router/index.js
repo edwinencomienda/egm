@@ -10,6 +10,8 @@ import AdminRegionCreate from '@/components/admin/region/Create'
 import AdminRegionUpdate from '@/components/admin/region/Update'
 import AdminRegionCluster from '@/components/admin/region/cluster/Index'
 
+import PartnerAppIndex from '@/components/partner/app/Index'
+
 import ClusterIndex from '@/components/cluster/Index'
 
 import PackageIndex from '@/components/common/package/Index'
@@ -107,6 +109,12 @@ export default new Router({
       path: createRoute('/packages'),
       meta: { title: 'Packages' },
       component: PackageIndex,
+      beforeEnter: authenticationRequired
+    },
+    {
+      path: createRoute('/apps'),
+      meta: { title: 'Apps' },
+      component: PartnerAppIndex,
       beforeEnter: authenticationRequired
     },
     { path: '*', redirect: '/' }
