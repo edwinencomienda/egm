@@ -33,6 +33,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import cookies from 'vue-cookies'
 
 export default {
   name: 'side-bar',
@@ -42,13 +43,13 @@ export default {
       tableLoading: 'tableLoading'
     }),
     items () {
-      if (this.userRole === 'admin') {
+      if (cookies.get('user_role') === 'admin') {
         return [
           {icon: 'public', text: 'Regions', link: '/regions'},
           {icon: 'apps', text: 'Clusters', link: '/clusters'},
           {icon: 'work', text: 'Packages', link: '/packages'}
         ]
-      } else if (this.userRole === 'partner') {
+      } else if (cookies.get('user_role') === 'partner') {
         return [
           {icon: 'apps', text: 'Clusters', link: '/clusters'},
           {icon: 'work', text: 'Packages', link: '/packages'},

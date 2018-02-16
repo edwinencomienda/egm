@@ -34,6 +34,8 @@ export const actions = {
         cookies.set('api_path_prefix', response.data.api_path_prefix, response.data.expires_in)
         // set app path prefix
         cookies.set('app_path_prefix', (response.data.role === 'admin' ? '/admin' : '/partner'), response.data.expires_in)
+        // set user role
+        cookies.set('user_role', response.data.role, response.data.expires_in)
         commit('SET_AUTH')
       }
     }).catch(error => {
@@ -44,6 +46,7 @@ export const actions = {
     cookies.remove('user_session')
     cookies.remove('user_token_session')
     cookies.remove('api_path_prefix')
+    cookies.remove('user_role')
   },
   SET_AUTH ({ commit }) {
     commit('SET_AUTH')

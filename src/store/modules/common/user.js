@@ -6,13 +6,14 @@ export const state = {
   me: '',
   userData: '',
   userDataError: false,
-  appPathPrefix: ''
+  appPathPrefix: '',
+  userRole: cookies.get('user_role')
 }
 
 export const getters = {
   userData: state => state.userData,
   userDataError: state => state.userDataError,
-  userRole: state => state.userData && state.userData.me.role ? state.userData.me.role : '',
+  userRole: state => state.userRole,
   appPathPrefix: state => state.appPathPrefix ? state.appPathPrefix : ''
 }
 
