@@ -5,9 +5,7 @@
         <v-content>
           <v-layout row wrap class="ma-3 mt-5">
               <transition name="fade" mode="out-in">
-                  <keep-alive>
-                    <router-view></router-view>
-                  </keep-alive>
+                  <router-view></router-view>
               </transition>
           </v-layout>
         </v-content>
@@ -22,12 +20,7 @@ export default {
   name: 'app',
   data: () => ({
     dialog: false,
-    drawer: null,
-    items: [
-      { icon: 'public', text: 'Regions' },
-      { icon: 'apps', text: 'Clusters' },
-      { icon: 'work', text: 'Packages' }
-    ]
+    drawer: null
   }),
   components: {
     'top-header': TopHeader,

@@ -79,7 +79,7 @@ export default new Router({
       beforeEnter: authenticationRequired,
       children: [
         {
-          path: '',
+          path: '/',
           name: 'regions',
           component: AdminRegionIndex
         },
