@@ -43,5 +43,6 @@ export const types = {
     ADMIN_PACKAGE_REMOVE: 'ADMIN_PACKAGE_REMOVE'
   },
   partner: {
+    PARTNER_APP_SET: 'PARTNER_APP_SET'
   }
 }

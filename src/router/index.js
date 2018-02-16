@@ -3,8 +3,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/auth/Login'
 import Dashboard from '@/components/dashboard/Index'
+import ViewTemplate from '@/components/common/layout/Template'
 
-import AdminRegionTemplate from '@/components/admin/region/Template'
 import AdminRegionIndex from '@/components/admin/region/Index'
 import AdminRegionCreate from '@/components/admin/region/Create'
 import AdminRegionUpdate from '@/components/admin/region/Update'
@@ -75,7 +75,7 @@ export default new Router({
     {
       path: createRoute('/regions'),
       meta: { title: 'Regions' },
-      component: AdminRegionTemplate,
+      component: ViewTemplate,
       beforeEnter: authenticationRequired,
       children: [
         {

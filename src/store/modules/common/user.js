@@ -33,14 +33,21 @@ export const mutations = {
 }
 
 export const actions = {
-  USER_ACTION ({ commit }, data) {
+  USER_ACTION ({ commit, getters }, data) {
     commit(types.common.SET_TABLE_LOADING, true)
     return new Promise((resolve, reject) => {
       user.me().then(response => {
         commit('SET_USER_DATA', response.data)
-        commit(types.admin.ADMIN_REGION_SET, response.data.regions)
-        commit(types.common.package.PACKAGE_SET, response.data.global_packages)
-        commit(types.common.SET_CLUSTER, response.data.regions)
+        if (getters.userRole === 'admin') {
+          // admin initial commits
+          commit(types.admin.ADMIN_REGION_SET, response.data.regions)
+        } else {
+          // partner intial commits
+          commit(types.partner.PARTNER_APP_SET, response.data.clusters)
+        }
+        // common intial commits
+        commit(types.common.package.PACKAGE_SET, getters.userRole === 'admin' ? response.data.global_packages : response.data.partner_packages)
+        commit(types.common.SET_CLUSTER, getters.userRole === 'admin' ? { admin: true, data: response.data.regions } : { partner: true, data: response.data.clusters })
         commit(types.common.SET_TABLE_LOADING, false)
         resolve(response)
       }, error => {

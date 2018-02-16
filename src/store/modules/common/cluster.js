@@ -10,13 +10,17 @@ export const getters = {
 
 export const mutations = {
   [types.common.SET_CLUSTER] (state, payload) {
-    let clusters = []
-    const regions = payload
-    // merge all clusters from all regions
-    regions.forEach(element => {
-      clusters = [...clusters, ...element.clusters]
-    })
-    state.clusters = clusters
+    if (payload.admin) {
+      let clusters = []
+      const regions = payload.data
+      // merge all clusters from all regions
+      regions.forEach(element => {
+        clusters = [...clusters, ...element.clusters]
+      })
+      state.clusters = clusters
+    } else {
+      state.clusters = payload.data
+    }
   }
 }
 

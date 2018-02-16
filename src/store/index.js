@@ -7,6 +7,8 @@ import * as common from './modules/common/common.js'
 import * as user from './modules/common/user'
 // admin modules
 import * as adminRegion from './modules/admin/region'
+// partner modules
+import * as partnerApp from './modules/partner/app'
 // common modules
 import * as packages from './modules/common/package'
 import * as cluster from './modules/common/cluster'
@@ -19,6 +21,7 @@ export const store = new Vuex.Store({
     common,
     user,
     adminRegion,
+    partnerApp,
     packages,
     cluster
   }

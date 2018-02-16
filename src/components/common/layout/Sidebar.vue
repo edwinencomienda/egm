@@ -52,8 +52,8 @@ export default {
       } else if (cookies.get('user_role') === 'partner') {
         return [
           {icon: 'apps', text: 'Clusters', link: '/clusters'},
-          {icon: 'work', text: 'Packages', link: '/packages'},
-          {icon: 'apps', text: 'Apps', link: '/apps'}
+          {icon: 'apps', text: 'Apps', link: '/apps'},
+          {icon: 'work', text: 'Packages', link: '/packages'}
         ]
       } else {
         return []
