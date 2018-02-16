@@ -12,6 +12,7 @@ export const state = {
 export const getters = {
   userData: state => state.userData,
   userDataError: state => state.userDataError,
+  userRole: state => state.userData && state.userData.me.role ? state.userData.me.role : '',
   appPathPrefix: state => state.appPathPrefix ? state.appPathPrefix : ''
 }
 

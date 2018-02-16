@@ -32,15 +32,31 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'side-bar',
   computed: {
+    ...mapGetters({
+      userRole: 'userRole',
+      tableLoading: 'tableLoading'
+    }),
     items () {
-      return [
-        {icon: 'public', text: 'Regions', link: '/regions'},
-        {icon: 'apps', text: 'Clusters', link: '/clusters'},
-        {icon: 'work', text: 'Packages', link: '/packages'}
-      ]
+      if (this.userRole === 'admin') {
+        return [
+          {icon: 'public', text: 'Regions', link: '/regions'},
+          {icon: 'apps', text: 'Clusters', link: '/clusters'},
+          {icon: 'work', text: 'Packages', link: '/packages'}
+        ]
+      } else if (this.userRole === 'partner') {
+        return [
+          {icon: 'apps', text: 'Clusters', link: '/clusters'},
+          {icon: 'work', text: 'Packages', link: '/packages'},
+          {icon: 'apps', text: 'Apps', link: '/apps'}
+        ]
+      } else {
+        return []
+      }
     }
   },
   data: () => ({
