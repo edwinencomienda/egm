@@ -155,7 +155,9 @@ export default {
   computed: {
     ...mapGetters({
       editItem: 'editItem',
-      formState: 'formState'
+      formState: 'formState',
+      userRole: 'userRole',
+      userSlug: 'userSlug'
     })
   },
   props: ['closeFormDialog', 'showFormDialog'],
@@ -250,6 +252,12 @@ export default {
     prepareData () {
       // prepare data to match naming convention
       let data = new FormData()
+
+      // add partner slug for partner user
+      if (this.userRole === 'partner') {
+        data.set('partner_slug', this.userSlug)
+      }
+
       data.set('package_slug', this.packageSlug)
       data.set('folder_name', this.form.FolderName)
       data.set('display_name', this.form.Name)

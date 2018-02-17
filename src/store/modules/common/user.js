@@ -14,6 +14,7 @@ export const getters = {
   userData: state => state.userData,
   userDataError: state => state.userDataError,
   userRole: state => state.userRole,
+  userSlug: state => state.userData ? state.userData.me.slug : '',
   appPathPrefix: state => state.appPathPrefix ? state.appPathPrefix : ''
 }
 
