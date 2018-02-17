@@ -12,8 +12,7 @@ import AdminRegionCluster from '@/components/admin/region/cluster/Index'
 
 import PartnerAppIndex from '@/components/partner/app/Index'
 
-import ClusterIndex from '@/components/cluster/Index'
-
+import ClusterIndex from '@/components/common/cluster/Index'
 import PackageIndex from '@/components/common/package/Index'
 
 import { store } from '@/store/index'
