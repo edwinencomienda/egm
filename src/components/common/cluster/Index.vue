@@ -18,6 +18,23 @@
                     <td>{{ props.item.display_name }}</td>
                     <td>{{ props.item.public_dns }}</td>
                     <td>{{ props.item.public_ipv4 }}</td>
+                    <td class="text-xs-center" v-if="userRole === 'partner'">
+                        <v-menu bottom left>
+                            <v-btn icon slot="activator">
+                                <v-icon>more_vert</v-icon>
+                            </v-btn>
+                            <v-list>
+                                <v-list-tile @click="viewApps(props.item)">
+                                    <v-icon sm class="mr-2">apps</v-icon>
+                                    <v-list-tile-title>Apps</v-list-tile-title>
+                                </v-list-tile>
+                                <v-list-tile>
+                                    <v-icon sm class="mr-2">delete</v-icon>
+                                    <v-list-tile-title>Delete</v-list-tile-title>
+                                </v-list-tile>
+                            </v-list>
+                        </v-menu>
+                    </td>
                 </tr>
             </template>
             <template slot="pageText" slot-scope="{ pageStart, pageStop }">
@@ -30,6 +47,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { types } from '../../../store/types'
+
 export default {
   name: 'clusters',
   data () {
@@ -62,8 +81,15 @@ export default {
   computed: {
     ...mapGetters({
       clusters: 'clusters',
-      tableLoading: 'tableLoading'
+      tableLoading: 'tableLoading',
+      userRole: 'userRole'
     })
+  },
+  methods: {
+    viewApps (data) {
+      this.$store.commit(types.partner.PARTNER_CLUSTER_SET_ITEM, data)
+      this.$router.push('clusters/apps')
+    }
   }
 }
 </script>

@@ -30,12 +30,12 @@
                             </v-btn>
                             <v-list>
                                 <v-list-tile @click="editItem(props.item)">
-                                    <v-icon sm>mode_edit</v-icon>
-                                    <v-list-tile-title>update</v-list-tile-title>
+                                    <v-icon sm class="mr-2">mode_edit</v-icon>
+                                    <v-list-tile-title>Update</v-list-tile-title>
                                 </v-list-tile>
                                 <v-list-tile @click="deleteItem(props.item.slug)">
-                                    <v-icon sm>delete</v-icon>
-                                    <v-list-tile-title>delete</v-list-tile-title>
+                                    <v-icon sm class="mr-2">delete</v-icon>
+                                    <v-list-tile-title>Delete</v-list-tile-title>
                                 </v-list-tile>
                             </v-list>
                         </v-menu>

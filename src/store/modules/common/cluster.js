@@ -1,11 +1,13 @@
 import { types } from '../../types'
 
 export const state = {
-  clusters: []
+  clusters: [],
+  cluster: ''
 }
 
 export const getters = {
-  clusters: state => state.clusters
+  clusters: state => state.clusters,
+  clusterApps: state => state.cluster ? state.cluster.apps : []
 }
 
 export const mutations = {
@@ -21,6 +23,9 @@ export const mutations = {
     } else {
       state.clusters = payload.data
     }
+  },
+  [types.partner.PARTNER_CLUSTER_SET_ITEM] (state, payload) {
+    state.cluster = payload
   }
 }
 

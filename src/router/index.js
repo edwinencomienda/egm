@@ -13,6 +13,7 @@ import AdminRegionCluster from '@/components/admin/region/cluster/Index'
 import PartnerAppIndex from '@/components/partner/app/Index'
 
 import ClusterIndex from '@/components/common/cluster/Index'
+import ClusterAppIndex from '@/components/common/cluster/app/Index'
 import PackageIndex from '@/components/common/package/Index'
 
 import { store } from '@/store/index'
@@ -101,8 +102,18 @@ export default new Router({
     {
       path: createRoute('/clusters'),
       meta: { title: 'Clusters' },
-      component: ClusterIndex,
-      beforeEnter: authenticationRequired
+      component: ViewTemplate,
+      beforeEnter: authenticationRequired,
+      children: [
+        {
+          path: '',
+          component: ClusterIndex
+        },
+        {
+          path: 'apps',
+          component: ClusterAppIndex
+        }
+      ]
     },
     {
       path: createRoute('/packages'),
