@@ -253,12 +253,12 @@ export default {
       // prepare data to match naming convention
       let data = new FormData()
 
-      // add partner slug for partner package upload
+      // partner slug for partner package upload
       if (this.userRole === 'partner') {
         data.set('partner_slug', this.userSlug)
       }
 
-      // add app slug for private package upload
+      // app slug for private package upload
       if (this.appSlug) {
         data.set('app_slug', this.appSlug)
       }
